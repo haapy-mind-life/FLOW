@@ -10,5 +10,5 @@
 
 ## **문서 링크**
 
-- [코드 문서 (Code Documentation)](./code_docs.md)
-- [UX 문서 (UX Documentation)](./ux_docs.md)
+- [코드 문서 (Code Documentation)](./docs/code_docs.md)
+- [UX 문서 (UX Documentation)](./docs/ux_docs.md)

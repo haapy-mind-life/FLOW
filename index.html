@@ -6,6 +6,7 @@
   <title>Project Flow</title>
   <link rel="stylesheet" href="styles.css">
   <script>
+    // 우클릭 방지
     document.addEventListener('contextmenu', (event) => event.preventDefault());
   </script>
 </head>
@@ -14,25 +15,37 @@
     <header>
       <h1>Project Flow</h1>
     </header>
+
     <div class="timer-selection">
       <button class="timer-option timer-singing-bowl" data-increment="60" data-mode="singing-bowl">🔔</button>
-      <button class="timer-option timer-5min" data-increment="300">🌱</button>
-      <button class="timer-option timer-15min" data-increment="900">🌳</button>
-      <button class="timer-option timer-30min" data-increment="1800">🌲</button>
+      <button class="timer-option timer-5min" data-increment="300" data-mode="5-min">🌱</button>
+      <button class="timer-option timer-15min" data-increment="900" data-mode="15-min">🌳</button>
+      <button class="timer-option timer-30min" data-increment="1800" data-mode="30-min">🌲</button>
       <button class="timer-option timer-continuous" data-mode="continuous">♾️</button>
     </div>
+
     <div class="active-timer">
       <svg class="progress-ring" width="300" height="300">
-        <circle class="progress-ring__circle" stroke="#AAD576" stroke-width="10" fill="transparent" r="140" cx="150" cy="150"></circle>
+        <circle
+          class="progress-ring__circle"
+          stroke="#AAD576"
+          stroke-width="10"
+          fill="transparent"
+          r="140"
+          cx="150"
+          cy="150"
+        ></circle>
       </svg>
       <div id="time-display" class="time-display">
         <p id="current-time" class="time-text"></p>
       </div>
     </div>
+
     <footer>
-      <p class="credits">Youtube: Forest Hymn - Bill Douglas</p>
+      <p class="credits">Music by: Youtube - Bill Douglas, Sound That Heals</p>
       <p class="credits-small">© 2024 Project Flow</p>
     </footer>
+
     <audio id="background-music" loop>
       <source src="./sounds/meditation.mp3" type="audio/mpeg">
     </audio>
@@ -40,6 +53,7 @@
       <source src="./sounds/alarm.mp3" type="audio/mpeg">
     </audio>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
