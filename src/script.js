@@ -1,128 +1,109 @@
-// 변수 정의
 const buttons = document.querySelectorAll('.timer-option');
-const currentTime = document.getElementById('current-time');
-const circle = document.querySelector('.progress-ring__circle');
-const music = document.getElementById('background-music');
-const alarm = document.getElementById('alarm-sound');
+const svgTimer = document.getElementById('svg-timer');
+const timeRemaining = document.getElementById('time-remaining');
+const progressCircle = document.querySelector('.progress-ring__circle');
+const backgroundMusic = document.getElementById('background-music');
+const singingBowlSound = document.getElementById('singing-bowl-sound');
+const copyrightPopup = document.getElementById('copyright-popup');
+const closePopup = document.getElementById('close-popup');
+const FULL_DASH_ARRAY = 2 * Math.PI * 140;
 
-const FULL_DASH_ARRAY = 2 * Math.PI * 140; // 원형 진행 바의 전체 둘레 길이
-let timeLeft = 0;
-let totalTime = 0;
 let interval;
-let isContinuousMode = false;
-let isSingingBowlMode = false;
+let isRunning = false;
 
-// 오디오 페이드 아웃
-function fadeOutAudio(audioElement, duration = 10000, callback) {
-    let volume = audioElement.volume;
-    const fadeStep = volume / (duration / 100);
-    const fadeInterval = setInterval(() => {
-        if (volume > 0) {
-            volume -= fadeStep;
-            audioElement.volume = Math.max(0, volume);
-        } else {
-            clearInterval(fadeInterval);
-            audioElement.pause();
-            if (callback) callback();
-        }
-    }, 100);
-}
-
-// 오디오 페이드 인
-function fadeInAudio(audioElement, duration = 10000, callback) {
-    let volume = 0;
-    audioElement.volume = volume;
-    audioElement.play();
-    const fadeStep = 1 / (duration / 100);
-    const fadeInterval = setInterval(() => {
-        if (volume < 1) {
-            volume += fadeStep;
-            audioElement.volume = Math.min(1, volume);
-        } else {
-            clearInterval(fadeInterval);
-            if (callback) callback();
-        }
-    }, 100);
-}
-
-// 원형 진행 바 업데이트
-function updateCircleProgress(percentage) {
-    const offset = FULL_DASH_ARRAY - (percentage / 100) * FULL_DASH_ARRAY;
-    circle.style.strokeDasharray = FULL_DASH_ARRAY;
-    circle.style.strokeDashoffset = offset;
-}
-
-// 타이머 종료 처리
-function timerEnd() {
-    if (isSingingBowlMode) {
-        // 싱잉볼 모드: 바로 알람 재생
-        alarm.volume = 1;
-        alarm.play();
+// 페이드인
+function fadeInAudio(audio, duration = 5000) {
+  audio.volume = 0;
+  audio.play().catch(() => {});
+  const step = 1 / (duration / 100);
+  const fadeInterval = setInterval(() => {
+    if (audio.volume < 1) {
+      audio.volume += step;
     } else {
-        // 배경음악 페이드 아웃
-        fadeOutAudio(music, 10000, () => {
-            // 알람 재생
-            alarm.volume = 1;
-            alarm.play();
-            alarm.onended = () => {
-                if (isContinuousMode) {
-                    // 연속 모드: 배경음악 페이드 인 후 타이머 재시작
-                    fadeInAudio(music, 10000);
-                    startTimer(1800); // 30분 반복
-                }
-            };
-        });
+      clearInterval(fadeInterval);
     }
+  }, 100);
 }
 
-// 타이머 틱 동작
-function timerTick() {
-    if (timeLeft > 0) {
-        timeLeft--;
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        currentTime.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        updateCircleProgress((timeLeft / totalTime) * 100);
+// 페이드아웃
+function fadeOutAudio(audio, duration = 5000) {
+  const step = audio.volume / (duration / 100);
+  const fadeInterval = setInterval(() => {
+    if (audio.volume > 0) {
+      audio.volume -= step;
     } else {
-        clearInterval(interval);
-        timerEnd();
+      audio.pause();
+      clearInterval(fadeInterval);
     }
+  }, 100);
 }
 
 // 타이머 시작
-function startTimer(seconds) {
-    clearInterval(interval);
+function startTimer(duration) {
+  let timeLeft = duration;
+  isRunning = true;
 
-    timeLeft = seconds;
-    totalTime = seconds;
+  progressCircle.style.strokeDasharray = FULL_DASH_ARRAY;
+  progressCircle.style.strokeDashoffset = FULL_DASH_ARRAY;
 
-    if (isSingingBowlMode) {
-        currentTime.textContent = '';
-        return;
-    }
+  fadeInAudio(backgroundMusic);
 
-    if (isContinuousMode) {
-        fadeInAudio(music, 2000);
-        currentTime.textContent = '30:00';
+  const updateTime = () => {
+    if (timeLeft > 0) {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      timeRemaining.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+      progressCircle.style.strokeDashoffset = FULL_DASH_ARRAY * (1 - timeLeft / duration);
+      timeLeft--;
     } else {
-        fadeInAudio(music, 2000);
+      clearInterval(interval);
+      timeRemaining.textContent = "완료!";
+      fadeOutAudio(backgroundMusic);
+      isRunning = false;
     }
+  };
 
-    interval = setInterval(timerTick, 1000);
+  interval = setInterval(updateTime, 1000);
+  updateTime();
 }
 
-// 버튼 클릭 이벤트
+// 초기화
+function resetTimer() {
+  clearInterval(interval);
+  fadeOutAudio(backgroundMusic); // 명상음악 종료
+  svgTimer.classList.add('hidden');
+  document.querySelector('.timer-selection').style.display = 'flex';
+  isRunning = false;
+}
+
+// 버튼 클릭
 buttons.forEach((button) => {
-    button.addEventListener('click', function () {
-        buttons.forEach((btn) => btn.classList.remove('active'));
-        this.classList.add('active');
+  button.addEventListener('click', () => {
+    if (isRunning) {
+      resetTimer();
+    } else {
+      const duration = parseInt(button.getAttribute('data-increment'), 10);
+      document.querySelector('.timer-selection').style.display = 'none';
+      svgTimer.classList.remove('hidden');
+      startTimer(duration);
+    }
+  });
+});
 
-        const increment = parseInt(this.getAttribute('data-increment'), 10);
-        const mode = this.getAttribute('data-mode');
+// 싱잉볼 모드
+document.getElementById('singing-bowl-mode').addEventListener('click', () => {
+  if (isRunning) return; // 타이머 진행 중에는 싱잉볼 모드 실행 안 됨
 
-        isSingingBowlMode = mode === 'singing-bowl';
-        isContinuousMode = mode === 'continuous';
+  fadeInAudio(singingBowlSound, 5000); // 5초 동안 페이드인
+  setTimeout(() => fadeOutAudio(singingBowlSound, 10000), 5000); // 10초 동안 페이드아웃
+});
 
-        startTimer(increment || 0);
-    });
+// 저작권 팝업 표시
+document.getElementById('copyright-info').addEventListener('click', () => {
+  copyrightPopup.classList.remove('hidden');
+});
+
+// 저작권 팝업 닫기
+closePopup.addEventListener('click', () => {
+  copyrightPopup.classList.add('hidden');
 });

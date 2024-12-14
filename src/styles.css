@@ -1,121 +1,141 @@
-/* 전체 레이아웃 설정 */
+/* 전역 스타일 */
 body {
-  margin: 0;
   background: linear-gradient(to bottom, #E6F5E9, #A3D9A5, #6B8E64);
+  font-family: 'Poppins', sans-serif;
+  color: #2F5D34;
+  margin: 0;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
   overflow: hidden;
-  font-family: Arial, sans-serif;
-  transition: background 5s linear;
-}
-
-/* 헤더 스타일 */
-header h1 {
-  font-size: 2.5rem;
-  color: #FFFFFF;
-  margin-bottom: 20px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 /* 앱 컨테이너 */
 #app {
-  text-align: center;
-  max-width: 500px;
-  width: 100%;
-}
-
-/* 타이머 버튼 컨테이너 */
-.timer-selection {
   display: flex;
-  justify-content: space-around;
-  margin-bottom: 30px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: calc(100vh - 60px); /* 푸터 높이 제외 */
 }
 
-/* 버튼 기본 스타일 */
-.timer-option {
-  width: 80px;
-  height: 80px;
+/* 헤더 버튼 */
+.header-buttons {
+  display: flex;
+  gap: 15px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.header-button {
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   border: none;
+  font-size: 1.5rem;
   cursor: pointer;
-  font-size: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease, background-color 0.5s ease;
+  color: white;
+  transition: transform 0.2s ease, background-color 0.3s ease;
 }
 
-/* 버튼 호버 효과 */
+.header-button.brown {
+  background: linear-gradient(to right, #D2B48C, #8B4513);
+}
+
+.header-button.gold {
+  background: linear-gradient(to right, #FFD700, #B8860B);
+}
+
+.header-button.gray {
+  background: linear-gradient(to right, #9E9E9E, #616161);
+}
+
+.header-button:hover {
+  transform: scale(1.1);
+}
+
+/* 타이머 선택 버튼 */
+.timer-selection {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.timer-option {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  border: none;
+  background: #B6E5AC; /* 옅은 녹색 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, background-color 0.5s ease;
+  cursor: pointer;
+}
+
 .timer-option:hover {
   transform: scale(1.1);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-/* 각 버튼의 고유 스타일 */
-.timer-option.timer-singing-bowl {
-  background: linear-gradient(145deg, #E1C699, #D4AF37);
-}
-
-.timer-option.timer-5min {
-  background: linear-gradient(145deg, #C6E7C8, #A3D9A5);
 }
 
 .timer-option.timer-15min {
-  background: linear-gradient(145deg, #F7E9A3, #FFD836);
+  background: #81C784; /* 중간 녹색 */
 }
 
 .timer-option.timer-30min {
-  background: linear-gradient(145deg, #E2C7A3, #FFB878);
+  background: #4CAF50; /* 짙은 녹색 */
 }
 
-.timer-option.timer-continuous {
-  background: linear-gradient(145deg, #B5D4CB, #6B8E64);
-}
-
-/* 활성화된 버튼 */
-.timer-option.active {
-  transform: scale(1.2);
-  border: 2px solid #FFFFFF;
-}
-
-/* 진행 바 컨테이너 */
-.active-timer {
+/* SVG 타이머 */
+.svg-timer {
   position: relative;
-  width: 300px;
-  height: 300px;
-  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-/* 원형 진행 바 스타일 */
+.hidden {
+  display: none; /* 숨김 처리 */
+}
+
 .progress-ring__circle {
+  stroke-dasharray: 880;
+  stroke-dashoffset: 880;
+  transition: stroke-dashoffset 1s linear;
   transform: rotate(-90deg);
   transform-origin: 50% 50%;
-  stroke-linecap: round;
-  transition: stroke-dashoffset 1s linear, stroke 0.5s ease-in-out;
 }
 
-/* 시간 표시 */
-.time-display {
+.timer-text {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  text-align: center;
-  color: #FFFFFF;
   font-size: 2rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  color: #2F5D34;
+  font-weight: bold;
 }
 
 /* 푸터 */
-footer {
+.footer {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
-  font-size: 0.8rem;
-  color: #C8E6C9;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: inherit; /* 바디와 동일한 배경 */
+  color: #2F5D34;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 10px 20px;
 }

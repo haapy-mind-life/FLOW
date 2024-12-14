@@ -1,0 +1,299 @@
+﻿
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\.github
+Name          : .github
+Extension     : .github
+Length        : 
+LastWriteTime : 2024-12-07 오후 2:10:37
+CreationTime  : 2024-12-07 오후 2:10:37
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\backup
+Name          : backup
+Extension     : 
+Length        : 
+LastWriteTime : 2024-12-14 오후 12:38:12
+CreationTime  : 2024-12-14 오전 8:01:10
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\docs
+Name          : docs
+Extension     : 
+Length        : 
+LastWriteTime : 2024-12-14 오후 3:04:08
+CreationTime  : 2024-12-07 오후 1:48:08
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\git
+Name          : git
+Extension     : 
+Length        : 
+LastWriteTime : 2024-12-07 오후 8:28:43
+CreationTime  : 2024-12-07 오후 8:27:25
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\sounds
+Name          : sounds
+Extension     : 
+Length        : 
+LastWriteTime : 2024-12-14 오후 1:33:39
+CreationTime  : 2024-12-01 오후 8:43:32
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\src
+Name          : src
+Extension     : 
+Length        : 
+LastWriteTime : 2024-12-07 오후 8:28:11
+CreationTime  : 2024-12-07 오후 8:28:03
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\index.html
+Name          : index.html
+Extension     : .html
+Length        : 2788
+LastWriteTime : 2024-12-14 오후 2:32:33
+CreationTime  : 2024-12-07 오후 8:31:03
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\README.md
+Name          : README.md
+Extension     : .md
+Length        : 2226
+LastWriteTime : 2024-12-07 오후 8:26:56
+CreationTime  : 2024-12-01 오후 7:41:46
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\script.js
+Name          : script.js
+Extension     : .js
+Length        : 3402
+LastWriteTime : 2024-12-14 오후 2:28:56
+CreationTime  : 2024-12-07 오후 8:31:03
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\styles.css
+Name          : styles.css
+Extension     : .css
+Length        : 2762
+LastWriteTime : 2024-12-14 오후 2:25:38
+CreationTime  : 2024-12-07 오후 8:31:03
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\.github\workflows
+Name          : workflows
+Extension     : 
+Length        : 
+LastWriteTime : 2024-12-07 오후 2:10:37
+CreationTime  : 2024-12-07 오후 2:10:37
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\.github\workflows\static.yml
+Name          : static.yml
+Extension     : .yml
+Length        : 1293
+LastWriteTime : 2024-12-07 오후 2:10:37
+CreationTime  : 2024-12-07 오후 2:10:37
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\backup\241214_old
+Name          : 241214_old
+Extension     : 
+Length        : 
+LastWriteTime : 2024-12-14 오전 10:33:17
+CreationTime  : 2024-12-14 오전 10:33:12
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\backup\241214_old2
+Name          : 241214_old2
+Extension     : 
+Length        : 
+LastWriteTime : 2024-12-14 오후 12:38:24
+CreationTime  : 2024-12-14 오후 12:38:05
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\backup\old
+Name          : old
+Extension     : 
+Length        : 
+LastWriteTime : 2024-12-14 오전 9:52:30
+CreationTime  : 2024-12-14 오전 9:52:21
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\backup\index.html
+Name          : index.html
+Extension     : .html
+Length        : 2007
+LastWriteTime : 2024-12-14 오전 9:48:15
+CreationTime  : 2024-12-14 오전 9:52:48
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\backup\script.js
+Name          : script.js
+Extension     : .js
+Length        : 4016
+LastWriteTime : 2024-12-14 오전 9:41:55
+CreationTime  : 2024-12-14 오전 9:52:48
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\backup\styles.css
+Name          : styles.css
+Extension     : .css
+Length        : 2575
+LastWriteTime : 2024-12-14 오전 9:39:15
+CreationTime  : 2024-12-14 오전 9:52:48
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\backup\241214_old\index.html
+Name          : index.html
+Extension     : .html
+Length        : 2007
+LastWriteTime : 2024-12-14 오전 9:48:15
+CreationTime  : 2024-12-14 오전 10:33:17
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\backup\241214_old\script.js
+Name          : script.js
+Extension     : .js
+Length        : 4016
+LastWriteTime : 2024-12-14 오전 9:41:55
+CreationTime  : 2024-12-14 오전 10:33:17
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\backup\241214_old\styles.css
+Name          : styles.css
+Extension     : .css
+Length        : 2575
+LastWriteTime : 2024-12-14 오전 9:39:15
+CreationTime  : 2024-12-14 오전 10:33:17
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\backup\241214_old2\index.html
+Name          : index.html
+Extension     : .html
+Length        : 1928
+LastWriteTime : 2024-12-14 오전 10:40:01
+CreationTime  : 2024-12-14 오후 12:38:24
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\backup\241214_old2\script.js
+Name          : script.js
+Extension     : .js
+Length        : 4664
+LastWriteTime : 2024-12-14 오전 10:41:32
+CreationTime  : 2024-12-14 오후 12:38:24
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\backup\241214_old2\styles.css
+Name          : styles.css
+Extension     : .css
+Length        : 3195
+LastWriteTime : 2024-12-14 오후 12:11:32
+CreationTime  : 2024-12-14 오후 12:38:24
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\backup\old\index.html
+Name          : index.html
+Extension     : .html
+Length        : 1926
+LastWriteTime : 2024-12-07 오후 6:17:46
+CreationTime  : 2024-12-14 오전 8:01:36
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\backup\old\script.js
+Name          : script.js
+Extension     : .js
+Length        : 3921
+LastWriteTime : 2024-12-07 오후 6:21:14
+CreationTime  : 2024-12-14 오전 8:02:11
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\backup\old\styles.css
+Name          : styles.css
+Extension     : .css
+Length        : 2585
+LastWriteTime : 2024-12-07 오후 6:19:36
+CreationTime  : 2024-12-14 오전 8:02:11
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\docs\2024_12_07_Project_Flow_Documentation.md
+Name          : 2024_12_07_Project_Flow_Documentation.md
+Extension     : .md
+Length        : 7081
+LastWriteTime : 2024-12-07 오후 6:04:51
+CreationTime  : 2024-12-07 오후 6:04:50
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\docs\2024_12_07_Unified_Prompt_for_Project_Flow.md
+Name          : 2024_12_07_Unified_Prompt_for_Project_Flow.md
+Extension     : .md
+Length        : 2160
+LastWriteTime : 2024-12-07 오후 8:58:31
+CreationTime  : 2024-12-07 오후 7:40:24
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\docs\2024_12_07_User_Feedback_and_Enhancements.md.md
+Name          : 2024_12_07_User_Feedback_and_Enhancements.md.md
+Extension     : .md
+Length        : 4266
+LastWriteTime : 2024-12-07 오후 7:32:03
+CreationTime  : 2024-12-07 오후 7:19:13
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\docs\2024_12_14_Project Flow_Documentation.md
+Name          : 2024_12_14_Project Flow_Documentation.md
+Extension     : .md
+Length        : 6026
+LastWriteTime : 2024-12-14 오후 3:05:17
+CreationTime  : 2024-12-14 오후 3:03:03
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\docs\code_docs.md
+Name          : code_docs.md
+Extension     : .md
+Length        : 5694
+LastWriteTime : 2024-12-07 오후 2:15:24
+CreationTime  : 2024-12-07 오후 1:50:00
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\docs\POC_REVIEW.md
+Name          : POC_REVIEW.md
+Extension     : .md
+Length        : 3410
+LastWriteTime : 2024-12-07 오후 7:42:04
+CreationTime  : 2024-12-01 오후 7:47:10
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\docs\ux_docs.md
+Name          : ux_docs.md
+Extension     : .md
+Length        : 4967
+LastWriteTime : 2024-12-07 오후 2:39:31
+CreationTime  : 2024-12-07 오후 1:50:24
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\git\git_guide.html
+Name          : git_guide.html
+Extension     : .html
+Length        : 14285
+LastWriteTime : 2024-12-07 오후 8:29:05
+CreationTime  : 2024-12-07 오후 8:28:40
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\sounds\Bill Douglas - Forest Hymn.mp3
+Name          : Bill Douglas - Forest Hymn.mp3
+Extension     : .mp3
+Length        : 4125322
+LastWriteTime : 2024-12-03 오전 2:32:07
+CreationTime  : 2024-12-03 오전 2:32:57
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\sounds\meditation.mp3
+Name          : meditation.mp3
+Extension     : .mp3
+Length        : 4125322
+LastWriteTime : 2024-11-30 오전 6:51:09
+CreationTime  : 2024-12-01 오후 8:43:32
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\sounds\singing-bowl.mp3
+Name          : singing-bowl.mp3
+Extension     : .mp3
+Length        : 345185
+LastWriteTime : 2024-12-03 오전 2:54:49
+CreationTime  : 2024-12-03 오전 2:55:30
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\sounds\Sound That Heals ☯️ 432 hz - Tibetan Meditation Music
+                 - Sound Bath Meditation - Healing Frequencies.mp3
+Name          : Sound That Heals ☯️ 432 hz - Tibetan Meditation Music - Sound Bath Meditation - Healing Frequencies.mp3
+Extension     : .mp3
+Length        : 345185
+LastWriteTime : 2024-12-03 오전 2:54:49
+CreationTime  : 2024-12-03 오전 2:55:07
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\src\index.html
+Name          : index.html
+Extension     : .html
+Length        : 1926
+LastWriteTime : 2024-12-07 오후 6:17:46
+CreationTime  : 2024-11-25 오후 8:38:51
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\src\script.js
+Name          : script.js
+Extension     : .js
+Length        : 3921
+LastWriteTime : 2024-12-07 오후 6:21:14
+CreationTime  : 2024-11-25 오후 8:38:51
+
+FullName      : C:\Users\jake7\Desktop\python_project\FLOW\src\styles.css
+Name          : styles.css
+Extension     : .css
+Length        : 2585
+LastWriteTime : 2024-12-07 오후 6:19:36
+CreationTime  : 2024-12-01 오후 8:42:20
+
+
+

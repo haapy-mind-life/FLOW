@@ -8,8 +8,68 @@
 ---
 
 ## **문서 링크**
+- [Project Flow Documentation (프로젝트 전체 개요)](./docs/Project%20Flow_Documentation.md)
 - [코드 문서 (Code Documentation)](./docs/code_docs.md)
 - [UX 문서 (UX Documentation)](./docs/ux_docs.md)
+- [사용자 피드백 및 개선 사항 (User Feedback)](./docs/2024_12_07_User_Feedback_and_Enhancements.md.md)
+
+---
+
+## **폴더 구조**
+
+### 최상위 폴더
+- `.github`: GitHub 워크플로우 설정 파일 저장.
+- `archive`: 백업된 파일과 폴더 관리.
+- `docs`: 프로젝트 문서 저장.
+- `git`: Git 사용 가이드 및 형상관리 문서 저장.
+- `src`: HTML, CSS, JavaScript 파일 저장.
+- `README.md`: 프로젝트 소개 문서.
+
+### 상세 구조
+1. **`.github`**
+   - `workflows`: GitHub Actions 관련 설정 파일.
+     - `static.yml`: 정적 파일 빌드 및 테스트.
+
+2. **`archive`**
+   - 백업된 주요 파일 저장.
+   - 하위 폴더:
+     - `241214_old`, `241214_old2`, `old`: 백업 파일 관리.
+     - `sounds`: 백업된 사운드 파일 저장.
+   - 주요 파일:
+     - `index.html`, `script.js`, `styles.css`, `FileInfo.txt`, `FilePaths.txt`, `PowerShell_Command.txt`.
+   - `sounds` 폴더:
+     - `Bill Douglas - Forest Hymn.mp3`
+     - `meditation.mp3`
+     - `singing-bowl.mp3`
+     - `Sound That Heals ☯️ 432 hz - Tibetan Meditation Music.mp3`.
+
+3. **`docs`**
+   - 프로젝트 관리 및 기술 문서 저장.
+   - 주요 파일:
+     - `2024_12_07_Project_Flow_Documentation.md`
+     - `2024_12_07_Unified_Prompt_for_Project_Flow.md`
+     - `2024_12_07_User_Feedback_and_Enhancements.md.md`
+     - `2024_12_14_Project Flow_Documentation - 복사본.md`
+     - `POC_REVIEW.md`
+     - `code_docs.md`
+     - `Project Flow_Documentation.md`
+     - `ux_docs.md`
+
+4. **`git`**
+   - Git 사용법 가이드 파일.
+     - `git_guide.html`
+
+5. **`src`**
+   - 현재 사용 중인 메인 소스 파일.
+   - 주요 파일:
+     - `index.html`
+     - `script.js`
+     - `styles.css`
+   - `sounds` 폴더:
+     - `Bill Douglas - Forest Hymn.mp3`
+     - `meditation.mp3`
+     - `singing-bowl.mp3`
+     - `Sound That Heals ☯️ 432 hz - Tibetan Meditation Music.mp3`
 
 ---
 
@@ -26,7 +86,7 @@
 
 ---
 
-## **추가 안내**
+**추가 안내**
 - Git 사용에 익숙하지 않은 팀원을 위해 `git_guide.html` 문서에 단계별 설명과 명령어 예시를 포함하였습니다.
 - 프로젝트 진행 중 궁금한 점이나 새로운 협업 전략이 필요하다면, `git` 폴더에 관련 문서를 추가하고 해당 문서의 링크를 `README.md`에 반영해주세요.
 - 지속적인 업데이트를 통해 팀원 모두가 Git과 형상관리 정책에 쉽게 접근하고 숙지할 수 있도록 함께 노력합시다.

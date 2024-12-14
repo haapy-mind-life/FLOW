@@ -3,32 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Project Flow</title>
   <link rel="stylesheet" href="styles.css">
   <script>
-    // 우클릭 방지
+    // 우클릭, 드래그 & 드롭 방지
     document.addEventListener('contextmenu', (event) => event.preventDefault());
+    document.addEventListener('selectstart', (event) => event.preventDefault());
+    document.addEventListener('dragstart', (event) => event.preventDefault());
   </script>
+  <title>Project FLOW</title>
 </head>
 <body>
   <div id="app">
-    <header>
-      <h1>Project Flow</h1>
-    </header>
-
-    <div class="timer-selection">
-      <button class="timer-option timer-singing-bowl" data-increment="60" data-mode="singing-bowl">🔔</button>
-      <button class="timer-option timer-5min" data-increment="300" data-mode="5-min">🌱</button>
-      <button class="timer-option timer-15min" data-increment="900" data-mode="15-min">🌳</button>
-      <button class="timer-option timer-30min" data-increment="1800" data-mode="30-min">🌲</button>
-      <button class="timer-option timer-continuous" data-mode="continuous">♾️</button>
+    <!-- 우측 상단 버튼 -->
+    <div class="header-buttons">
+      <button id="view-history" class="header-button brown" title="기록 확인">📜</button>
+      <button id="copyright-info" class="header-button gray" title="저작권 정보">⚖️</button>
+      <button id="singing-bowl-mode" class="header-button gold" title="싱잉볼">🔔</button>
     </div>
 
-    <div class="active-timer">
+    <!-- 타이머 선택 -->
+    <div class="timer-selection">
+      <button class="timer-option timer-5min" data-increment="300">🌱</button>
+      <button class="timer-option timer-15min" data-increment="900">🌳</button>
+      <button class="timer-option timer-30min" data-increment="1800">🌲</button>
+    </div>
+
+    <!-- 중앙의 SVG 타이머 -->
+    <div id="svg-timer" class="svg-timer hidden">
       <svg class="progress-ring" width="300" height="300">
         <circle
+          class="progress-ring__background"
+          stroke="#E6F5E9"
+          stroke-width="10"
+          fill="transparent"
+          r="140"
+          cx="150"
+          cy="150"
+        ></circle>
+        <circle
           class="progress-ring__circle"
-          stroke="#AAD576"
+          stroke="#6B8E64"
           stroke-width="10"
           fill="transparent"
           r="140"
@@ -36,21 +50,31 @@
           cy="150"
         ></circle>
       </svg>
-      <div id="time-display" class="time-display">
-        <p id="current-time" class="time-text"></p>
+      <div class="timer-text">
+        <p id="time-remaining">00:00</p>
       </div>
     </div>
 
-    <footer>
-      <p class="credits">Music by: Youtube - Bill Douglas, Sound That Heals</p>
-      <p class="credits-small">© 2024 Project Flow</p>
+    <!-- 저작권 정보 팝업 -->
+    <div id="copyright-popup" class="popup hidden">
+      <p>Music by: Youtube</p>
+      <p>Bill Douglas - "Forest Hymn"</p>
+      <p>Tibetan Meditation Music - "Sound Bath Meditation"</p>
+      <p>Contact: happy.mind.life79@gmail.com</p>
+      <button id="close-popup">닫기</button>
+    </div>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+      <p>© 2024 Project Flow. All rights reserved.</p>
     </footer>
 
+    <!-- 오디오 -->
     <audio id="background-music" loop>
       <source src="./sounds/meditation.mp3" type="audio/mpeg">
     </audio>
-    <audio id="alarm-sound">
-      <source src="./sounds/alarm.mp3" type="audio/mpeg">
+    <audio id="singing-bowl-sound">
+      <source src="./sounds/singing-bowl.mp3" type="audio/mpeg">
     </audio>
   </div>
 

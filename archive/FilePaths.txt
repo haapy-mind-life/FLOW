@@ -1,0 +1,49 @@
+﻿FullName
+C:\Users\jake7\Desktop\python_project\FLOW\.github
+C:\Users\jake7\Desktop\python_project\FLOW\archive
+C:\Users\jake7\Desktop\python_project\FLOW\docs
+C:\Users\jake7\Desktop\python_project\FLOW\git
+C:\Users\jake7\Desktop\python_project\FLOW\src
+C:\Users\jake7\Desktop\python_project\FLOW\README.md
+C:\Users\jake7\Desktop\python_project\FLOW\.github\workflows
+C:\Users\jake7\Desktop\python_project\FLOW\.github\workflows\static.yml
+C:\Users\jake7\Desktop\python_project\FLOW\archive\241214_old
+C:\Users\jake7\Desktop\python_project\FLOW\archive\241214_old2
+C:\Users\jake7\Desktop\python_project\FLOW\archive\old
+C:\Users\jake7\Desktop\python_project\FLOW\archive\sounds
+C:\Users\jake7\Desktop\python_project\FLOW\archive\FileInfo.txt
+C:\Users\jake7\Desktop\python_project\FLOW\archive\FilePaths.txt
+C:\Users\jake7\Desktop\python_project\FLOW\archive\index.html
+C:\Users\jake7\Desktop\python_project\FLOW\archive\PowerShell_Command.txt
+C:\Users\jake7\Desktop\python_project\FLOW\archive\script.js
+C:\Users\jake7\Desktop\python_project\FLOW\archive\styles.css
+C:\Users\jake7\Desktop\python_project\FLOW\archive\241214_old\index.html
+C:\Users\jake7\Desktop\python_project\FLOW\archive\241214_old\script.js
+C:\Users\jake7\Desktop\python_project\FLOW\archive\241214_old\styles.css
+C:\Users\jake7\Desktop\python_project\FLOW\archive\241214_old2\index.html
+C:\Users\jake7\Desktop\python_project\FLOW\archive\241214_old2\script.js
+C:\Users\jake7\Desktop\python_project\FLOW\archive\241214_old2\styles.css
+C:\Users\jake7\Desktop\python_project\FLOW\archive\old\index.html
+C:\Users\jake7\Desktop\python_project\FLOW\archive\old\script.js
+C:\Users\jake7\Desktop\python_project\FLOW\archive\old\styles.css
+C:\Users\jake7\Desktop\python_project\FLOW\archive\sounds\Bill Douglas - Forest Hymn.mp3
+C:\Users\jake7\Desktop\python_project\FLOW\archive\sounds\meditation.mp3
+C:\Users\jake7\Desktop\python_project\FLOW\archive\sounds\singing-bowl.mp3
+C:\Users\jake7\Desktop\python_project\FLOW\archive\sounds\Sound That Heals ☯️ 432 hz - Tibetan Meditation Music - Sound Bath Meditation - Healing Frequencies.mp3
+C:\Users\jake7\Desktop\python_project\FLOW\docs\2024_12_07_Project_Flow_Documentation.md
+C:\Users\jake7\Desktop\python_project\FLOW\docs\2024_12_07_Unified_Prompt_for_Project_Flow.md
+C:\Users\jake7\Desktop\python_project\FLOW\docs\2024_12_07_User_Feedback_and_Enhancements.md.md
+C:\Users\jake7\Desktop\python_project\FLOW\docs\2024_12_14_Project Flow_Documentation - 복사본.md
+C:\Users\jake7\Desktop\python_project\FLOW\docs\code_docs.md
+C:\Users\jake7\Desktop\python_project\FLOW\docs\POC_REVIEW.md
+C:\Users\jake7\Desktop\python_project\FLOW\docs\Project Flow_Documentation.md
+C:\Users\jake7\Desktop\python_project\FLOW\docs\ux_docs.md
+C:\Users\jake7\Desktop\python_project\FLOW\git\git_guide.html
+C:\Users\jake7\Desktop\python_project\FLOW\src\sounds
+C:\Users\jake7\Desktop\python_project\FLOW\src\index.html
+C:\Users\jake7\Desktop\python_project\FLOW\src\script.js
+C:\Users\jake7\Desktop\python_project\FLOW\src\styles.css
+C:\Users\jake7\Desktop\python_project\FLOW\src\sounds\Bill Douglas - Forest Hymn.mp3
+C:\Users\jake7\Desktop\python_project\FLOW\src\sounds\meditation.mp3
+C:\Users\jake7\Desktop\python_project\FLOW\src\sounds\singing-bowl.mp3
+C:\Users\jake7\Desktop\python_project\FLOW\src\sounds\Sound That Heals ☯️ 432 hz - Tibetan Meditation Music - Sound Bath Meditation - Healing Frequencies.mp3

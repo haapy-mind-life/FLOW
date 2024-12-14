@@ -1,0 +1,11 @@
+# 대상 폴더 설정
+$folderPath = "C:\Users\jake7\Desktop\python_project\FLOW"
+
+# FullName만 추출
+$filePaths = Get-ChildItem -Path $folderPath -Recurse | Select-Object -ExpandProperty FullName
+
+# 헤더 추가 및 결과 저장
+"FullName" | Out-File -FilePath "C:\Users\jake7\Desktop\python_project\FLOW\archive\FilePaths.txt" -Encoding UTF8
+$filePaths | Out-File -FilePath "C:\Users\jake7\Desktop\python_project\FLOW\archive\FilePaths.txt" -Append -Encoding UTF8
+
+Write-Host "파일 경로가 성공적으로 텍스트 파일에 저장되었습니다!" -ForegroundColor Green
