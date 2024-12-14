@@ -3,8 +3,12 @@ C:\Users\jake7\Desktop\python_project\FLOW\.github
 C:\Users\jake7\Desktop\python_project\FLOW\archive
 C:\Users\jake7\Desktop\python_project\FLOW\docs
 C:\Users\jake7\Desktop\python_project\FLOW\git
+C:\Users\jake7\Desktop\python_project\FLOW\sounds
 C:\Users\jake7\Desktop\python_project\FLOW\src
+C:\Users\jake7\Desktop\python_project\FLOW\index.html
 C:\Users\jake7\Desktop\python_project\FLOW\README.md
+C:\Users\jake7\Desktop\python_project\FLOW\script.js
+C:\Users\jake7\Desktop\python_project\FLOW\styles.css
 C:\Users\jake7\Desktop\python_project\FLOW\.github\workflows
 C:\Users\jake7\Desktop\python_project\FLOW\.github\workflows\static.yml
 C:\Users\jake7\Desktop\python_project\FLOW\archive\241214_old
@@ -34,11 +38,17 @@ C:\Users\jake7\Desktop\python_project\FLOW\docs\2024_12_07_Project_Flow_Document
 C:\Users\jake7\Desktop\python_project\FLOW\docs\2024_12_07_Unified_Prompt_for_Project_Flow.md
 C:\Users\jake7\Desktop\python_project\FLOW\docs\2024_12_07_User_Feedback_and_Enhancements.md.md
 C:\Users\jake7\Desktop\python_project\FLOW\docs\2024_12_14_Project Flow_Documentation - 복사본.md
+C:\Users\jake7\Desktop\python_project\FLOW\docs\changed_docs.md
 C:\Users\jake7\Desktop\python_project\FLOW\docs\code_docs.md
 C:\Users\jake7\Desktop\python_project\FLOW\docs\POC_REVIEW.md
 C:\Users\jake7\Desktop\python_project\FLOW\docs\Project Flow_Documentation.md
 C:\Users\jake7\Desktop\python_project\FLOW\docs\ux_docs.md
 C:\Users\jake7\Desktop\python_project\FLOW\git\git_guide.html
+C:\Users\jake7\Desktop\python_project\FLOW\git\git_guide.md
+C:\Users\jake7\Desktop\python_project\FLOW\sounds\Bill Douglas - Forest Hymn.mp3
+C:\Users\jake7\Desktop\python_project\FLOW\sounds\meditation.mp3
+C:\Users\jake7\Desktop\python_project\FLOW\sounds\singing-bowl.mp3
+C:\Users\jake7\Desktop\python_project\FLOW\sounds\Sound That Heals ☯️ 432 hz - Tibetan Meditation Music - Sound Bath Meditation - Healing Frequencies.mp3
 C:\Users\jake7\Desktop\python_project\FLOW\src\sounds
 C:\Users\jake7\Desktop\python_project\FLOW\src\index.html
 C:\Users\jake7\Desktop\python_project\FLOW\src\script.js

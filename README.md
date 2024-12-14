@@ -12,6 +12,7 @@
 - [코드 문서 (Code Documentation)](./docs/code_docs.md)
 - [UX 문서 (UX Documentation)](./docs/ux_docs.md)
 - [사용자 피드백 및 개선 사항 (User Feedback)](./docs/2024_12_07_User_Feedback_and_Enhancements.md.md)
+- [변경 내용 기록 (Changed Documentation)](./docs/changed_docs.md)
 
 ---
 
@@ -22,54 +23,55 @@
 - `archive`: 백업된 파일과 폴더 관리.
 - `docs`: 프로젝트 문서 저장.
 - `git`: Git 사용 가이드 및 형상관리 문서 저장.
-- `src`: HTML, CSS, JavaScript 파일 저장.
-- `README.md`: 프로젝트 소개 문서.
+- `sounds`: 프로젝트에서 사용되는 배경음악 및 효과음 저장.
+- `src`: 현재 사용 중인 HTML, CSS, JS 파일과 사운드 파일 저장.
+- 개별 파일:
+  - `index.html`: 프로젝트 메인 HTML 파일.
+  - `README.md`: 프로젝트 개요 및 소개 문서.
+  - `script.js`: 주요 타이머 기능을 구현한 JavaScript 파일.
+  - `styles.css`: 스타일을 정의한 CSS 파일.
 
 ### 상세 구조
 1. **`.github`**
-   - `workflows`: GitHub Actions 관련 설정 파일.
-     - `static.yml`: 정적 파일 빌드 및 테스트.
+   - `workflows/static.yml`: GitHub Actions 관련 설정 파일.
 
 2. **`archive`**
-   - 백업된 주요 파일 저장.
-   - 하위 폴더:
-     - `241214_old`, `241214_old2`, `old`: 백업 파일 관리.
+   - 히스토리 관리 폴더:
+     - `241214_old`, `241214_old2`, `old`: 이전 백업 파일.
      - `sounds`: 백업된 사운드 파일 저장.
    - 주요 파일:
-     - `index.html`, `script.js`, `styles.css`, `FileInfo.txt`, `FilePaths.txt`, `PowerShell_Command.txt`.
-   - `sounds` 폴더:
-     - `Bill Douglas - Forest Hymn.mp3`
-     - `meditation.mp3`
-     - `singing-bowl.mp3`
-     - `Sound That Heals ☯️ 432 hz - Tibetan Meditation Music.mp3`.
+     - `FileInfo.txt`, `FilePaths.txt`, `PowerShell_Command.txt`: 백업 관련 정보 기록.
+     - 백업된 HTML, JS, CSS 파일들.
 
 3. **`docs`**
-   - 프로젝트 관리 및 기술 문서 저장.
-   - 주요 파일:
-     - `2024_12_07_Project_Flow_Documentation.md`
-     - `2024_12_07_Unified_Prompt_for_Project_Flow.md`
-     - `2024_12_07_User_Feedback_and_Enhancements.md.md`
-     - `2024_12_14_Project Flow_Documentation - 복사본.md`
-     - `POC_REVIEW.md`
-     - `code_docs.md`
-     - `Project Flow_Documentation.md`
-     - `ux_docs.md`
+   - 주요 문서:
+     - `Project Flow_Documentation.md`: 프로젝트 전체 개요.
+     - `code_docs.md`: 코드 문서.
+     - `ux_docs.md`: UX 문서.
+     - `2024_12_07_User_Feedback_and_Enhancements.md.md`: 사용자 피드백 및 개선 사항.
+     - `POC_REVIEW.md`: 개념 검토 문서.
+   - 복사본 또는 이전 버전:
+     - `2024_12_14_Project Flow_Documentation - 복사본.md`.
+   - 추가 문서:
+     - `changed_docs.md`: 변경 내용 기록.
 
 4. **`git`**
-   - Git 사용법 가이드 파일.
-     - `git_guide.html`
-
-5. **`src`**
-   - 현재 사용 중인 메인 소스 파일.
    - 주요 파일:
-     - `index.html`
-     - `script.js`
-     - `styles.css`
-   - `sounds` 폴더:
+     - `git_guide.html`: Git 업데이트 및 릴리즈 가이드.
+     - `git_guide.md`: 텍스트 기반 Git 가이드.
+
+5. **`sounds`**
+   - 주요 배경음악 및 사운드 파일:
      - `Bill Douglas - Forest Hymn.mp3`
      - `meditation.mp3`
      - `singing-bowl.mp3`
-     - `Sound That Heals ☯️ 432 hz - Tibetan Meditation Music.mp3`
+     - `Sound That Heals ☯️ 432 hz.mp3`.
+
+6. **`src`**
+   - 메인 파일:
+     - `index.html`, `script.js`, `styles.css`.
+   - 사운드 파일 저장:
+     - `src/sounds` 디렉토리 내 동일 사운드 파일들.
 
 ---
 
@@ -77,7 +79,7 @@
 
 프로젝트 진행 중 팀원들이 Git 사용법에 대해 참고할 수 있는 가이드를 준비했습니다. Git 기본 사용 방법, 브랜치 전략, 커밋 규칙, 릴리즈 태그 생성 방법 등 형상관리에 필요한 정보들이 포함되어 있습니다. 해당 가이드는 지속적으로 업데이트될 예정이니 정기적으로 확인해주세요.
 
-- [Git 사용법 가이드 (HTML 문서)](./git/git_guide.html)
+- [Git 사용법 가이드 (Markdown 문서)](./git/git_guide.md)
 
 ### Git 폴더 관리 권장사항
 - `git` 폴더 내 `git_guide.html` 문서는 Git 관련 설정 및 사용 방법, 버전 관리 정책 등을 담고 있습니다.

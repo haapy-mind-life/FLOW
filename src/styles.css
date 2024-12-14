@@ -1,3 +1,5 @@
+/* CSS for Project FLOW */
+
 /* 전역 스타일 */
 body {
   background: linear-gradient(to bottom, #E6F5E9, #A3D9A5, #6B8E64);
@@ -124,6 +126,58 @@ body {
   font-size: 2rem;
   color: #2F5D34;
   font-weight: bold;
+}
+
+/* 팝업 스타일 */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  z-index: 1000;
+  width: 80%;
+  max-width: 400px;
+}
+
+.popup h3 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #2F5D34;
+}
+
+.popup ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.popup ul li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+.popup button {
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.popup button:hover {
+  background: #388E3C;
 }
 
 /* 푸터 */
