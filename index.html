@@ -3,73 +3,213 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
   <title>Project FLOW</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #E6F5E9, #A3D9A5, #6B8E64);
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #2F5D34;
+    }
+
+    .header-buttons {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .header-button {
+      background: #81C784;
+      border: 2px solid #2F5D34;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    .timer-selection {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .timer-option {
+      background: linear-gradient(to top, #B6E5AC, #4CAF50);
+      border: 2px solid white;
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      cursor: pointer;
+    }
+
+    #svg-timer {
+      display: none;
+      position: relative;
+    }
+
+    .progress-ring {
+      width: 300px;
+      height: 300px;
+    }
+
+    .progress-ring__circle {
+      fill: none;
+      stroke: #6B8E64;
+      stroke-width: 10;
+      stroke-dasharray: 880;
+      stroke-dashoffset: 880;
+      transition: stroke-dashoffset 1s linear;
+    }
+
+    .timer-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #2F5D34;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      text-align: center;
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
   <div id="app">
-    <!-- 상단 버튼 -->
     <div class="header-buttons">
-      <button id="view-history" class="header-button brown" title="기록 확인">📜</button>
-      <button id="copyright-info" class="header-button gray" title="저작권 정보">⚖️</button>
-      <button id="singing-bowl-mode" class="header-button gold" title="싱잉볼">🔔</button>
+      <button id="singing-bowl-mode" class="header-button" title="싱잉볼">🔔</button>
     </div>
 
-    <!-- 타이머 선택 화면 -->
     <div class="timer-selection">
-      <button class="timer-option timer-5min" data-increment="300">🌱</button>
-      <button class="timer-option timer-15min" data-increment="900">🌳</button>
-      <button class="timer-option timer-30min" data-increment="1800">🌲</button>
+      <button class="timer-option" data-increment="300">🌱</button>
+      <button class="timer-option" data-increment="900">🌳</button>
+      <button class="timer-option" data-increment="1800">🌲</button>
     </div>
 
-    <!-- SVG 타이머 화면 -->
-    <div id="svg-timer" class="svg-timer hidden">
-      <svg class="progress-ring" width="300" height="300">
-        <circle class="progress-ring__background" stroke="#E6F5E9" stroke-width="10" fill="transparent" r="140" cx="150" cy="150"></circle>
-        <circle class="progress-ring__circle" stroke="#6B8E64" stroke-width="10" fill="transparent" r="140" cx="150" cy="150"></circle>
+    <div id="svg-timer">
+      <svg class="progress-ring">
+        <circle class="progress-ring__background" r="140" cx="150" cy="150" fill="transparent" stroke="#E6F5E9" stroke-width="10"></circle>
+        <circle class="progress-ring__circle" r="140" cx="150" cy="150" fill="transparent"></circle>
       </svg>
-      <div class="timer-text">
-        <p id="time-remaining">00:00</p>
-      </div>
+      <div class="timer-text">00:00</div>
     </div>
 
-    <!-- 싱잉볼 모드 화면 -->
-    <div id="singing-bowl-screen" class="hidden">
-      <div class="singing-bowl-indicator">
-        <p>🎵 싱잉볼 모드 재생 중... 🎵</p>
-      </div>
-    </div>
-
-    <!-- 기록 보기 팝업 -->
-    <div id="history-popup" class="popup hidden">
-      <h3>타이머 기록</h3>
-      <ul id="history-list"></ul>
-      <button id="close-history">닫기</button>
-    </div>
-
-    <!-- 저작권 정보 팝업 -->
-    <div id="copyright-popup" class="popup hidden">
-      <p>Music by: Youtube</p>
-      <p>Bill Douglas - "Forest Hymn"</p>
-      <p>Tibetan Meditation Music - "Sound Bath Meditation"</p>
-      <p>Contact: happy.mind.life79@gmail.com</p>
-      <button id="close-popup">닫기</button>
-    </div>
-
-    <!-- 푸터 -->
-    <footer class="footer">
-      <p>© 2024 Project Flow. All rights reserved.</p>
+    <footer>
+      <p>© 2024 Project FLOW</p>
     </footer>
-
-    <!-- 오디오 파일 -->
-    <audio id="background-music" loop>
-      <source src="./sounds/meditation.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="singing-bowl-sound">
-      <source src="./sounds/singing-bowl.mp3" type="audio/mpeg">
-    </audio>
   </div>
 
-  <script src="script.js"></script>
+  <audio id="background-music" loop>
+    <source src="./sounds/meditation.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="singing-bowl-sound">
+    <source src="./sounds/singing-bowl.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const FULL_DASH_ARRAY = 880;
+    let isRunning = false;
+    let intervalId = null;
+
+    const backgroundMusic = document.getElementById('background-music');
+    const singingBowlSound = document.getElementById('singing-bowl-sound');
+    const progressCircle = document.querySelector('.progress-ring__circle');
+    const timerText = document.querySelector('.timer-text');
+    const svgTimer = document.getElementById('svg-timer');
+
+    function playAudio(audio) {
+      audio.currentTime = 0;
+      audio.volume = 1;
+      audio.play().catch(err => console.warn('오디오 재생 실패:', err));
+    }
+
+    function resetAudio(audio) {
+      audio.pause();
+      audio.currentTime = 0;
+      audio.volume = 1;
+    }
+
+    function fadeOutAudio(audio, duration = 5000) {
+      if (audio.paused) return;
+      const step = audio.volume / (duration / 100);
+      const fadeInterval = setInterval(() => {
+        if (audio.volume > 0.01) {
+          audio.volume -= step;
+        } else {
+          clearInterval(fadeInterval);
+          resetAudio(audio);
+        }
+      }, 100);
+    }
+
+    function startTimer(duration) {
+      if (isRunning) return;
+      isRunning = true;
+      let timeLeft = duration;
+
+      progressCircle.style.strokeDasharray = FULL_DASH_ARRAY;
+      progressCircle.style.strokeDashoffset = FULL_DASH_ARRAY;
+      svgTimer.style.display = 'block';
+      document.querySelector('.timer-selection').style.display = 'none';
+
+      playAudio(backgroundMusic);
+
+      intervalId = setInterval(() => {
+        if (timeLeft <= 0) {
+          clearInterval(intervalId);
+          fadeOutAudio(backgroundMusic, 3000);
+          playSingingBowl();
+          resetTimer();
+        } else {
+          timeLeft--;
+          const minutes = Math.floor(timeLeft / 60);
+          const seconds = timeLeft % 60;
+          timerText.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+          progressCircle.style.strokeDashoffset = FULL_DASH_ARRAY * (1 - timeLeft / duration);
+        }
+      }, 1000);
+    }
+
+    function resetTimer() {
+      isRunning = false;
+      clearInterval(intervalId);
+      svgTimer.style.display = 'none';
+      document.querySelector('.timer-selection').style.display = 'flex';
+      resetAudio(backgroundMusic);
+    }
+
+    function playSingingBowl() {
+      resetAudio(singingBowlSound);
+      playAudio(singingBowlSound);
+      setTimeout(() => fadeOutAudio(singingBowlSound, 3000), 10000);
+    }
+
+    document.querySelectorAll('.timer-option').forEach(button => {
+      button.addEventListener('click', () => {
+        const duration = parseInt(button.dataset.increment, 10);
+        startTimer(duration);
+      });
+    });
+
+    document.getElementById('singing-bowl-mode').addEventListener('click', playSingingBowl);
+  </script>
 </body>
 </html>

@@ -8,21 +8,16 @@
 </head>
 <body>
   <div id="app">
-    <!-- 상단 버튼 -->
     <div class="header-buttons">
       <button id="view-history" class="header-button brown" title="기록 확인">📜</button>
       <button id="copyright-info" class="header-button gray" title="저작권 정보">⚖️</button>
       <button id="singing-bowl-mode" class="header-button gold" title="싱잉볼">🔔</button>
     </div>
-
-    <!-- 타이머 선택 화면 -->
     <div class="timer-selection">
       <button class="timer-option timer-5min" data-increment="300">🌱</button>
       <button class="timer-option timer-15min" data-increment="900">🌳</button>
       <button class="timer-option timer-30min" data-increment="1800">🌲</button>
     </div>
-
-    <!-- SVG 타이머 화면 -->
     <div id="svg-timer" class="svg-timer hidden">
       <svg class="progress-ring" width="300" height="300">
         <circle class="progress-ring__background" stroke="#E6F5E9" stroke-width="10" fill="transparent" r="140" cx="150" cy="150"></circle>
@@ -32,36 +27,9 @@
         <p id="time-remaining">00:00</p>
       </div>
     </div>
-
-    <!-- 싱잉볼 모드 화면 -->
-    <div id="singing-bowl-screen" class="hidden">
-      <div class="singing-bowl-indicator">
-        <p>🎵 싱잉볼 모드 재생 중... 🎵</p>
-      </div>
-    </div>
-
-    <!-- 기록 보기 팝업 -->
-    <div id="history-popup" class="popup hidden">
-      <h3>타이머 기록</h3>
-      <ul id="history-list"></ul>
-      <button id="close-history">닫기</button>
-    </div>
-
-    <!-- 저작권 정보 팝업 -->
-    <div id="copyright-popup" class="popup hidden">
-      <p>Music by: Youtube</p>
-      <p>Bill Douglas - "Forest Hymn"</p>
-      <p>Tibetan Meditation Music - "Sound Bath Meditation"</p>
-      <p>Contact: happy.mind.life79@gmail.com</p>
-      <button id="close-popup">닫기</button>
-    </div>
-
-    <!-- 푸터 -->
     <footer class="footer">
       <p>© 2024 Project Flow. All rights reserved.</p>
     </footer>
-
-    <!-- 오디오 파일 -->
     <audio id="background-music" loop>
       <source src="./sounds/meditation.mp3" type="audio/mpeg">
     </audio>
@@ -69,7 +37,6 @@
       <source src="./sounds/singing-bowl.mp3" type="audio/mpeg">
     </audio>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>
