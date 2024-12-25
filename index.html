@@ -190,9 +190,15 @@
       intervalId = setInterval(() => {
         if (timeLeft <= 0) {
           clearInterval(intervalId);
-          fadeOutAudio(backgroundMusic, 10000); // 10초 페이드아웃
-          playSingingBowl();
-          resetTimer();
+
+          // 명상음악 페이드아웃 실행
+          fadeOutAudio(backgroundMusic, 10000);
+
+          // 페이드아웃 종료 후 싱잉볼 재생
+          setTimeout(() => {
+            playSingingBowl();
+            resetTimer();
+          }, 10000);
         } else {
           timeLeft--;
           timerText.textContent = formatTime(timeLeft);
