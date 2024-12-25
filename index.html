@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Project FLOW</title>
   <style>
+    /* 기본 스타일 */
     body {
       background: linear-gradient(to bottom, #E6F5E9, #A3D9A5, #6B8E64);
       font-family: 'Poppins', sans-serif;
@@ -16,6 +17,7 @@
       color: #2F5D34;
     }
 
+    /* 헤더 버튼 */
     .header-buttons {
       position: absolute;
       top: 10px;
@@ -38,6 +40,7 @@
       color: white;
     }
 
+    /* 타이머 버튼 */
     .timer-selection {
       display: flex;
       gap: 20px;
@@ -54,6 +57,7 @@
       cursor: pointer;
     }
 
+    /* SVG 타이머 */
     #svg-timer {
       display: none;
       position: relative;
@@ -83,6 +87,7 @@
       color: #2F5D34;
     }
 
+    /* 푸터 */
     footer {
       position: absolute;
       bottom: 10px;
@@ -93,16 +98,19 @@
 </head>
 <body>
   <div id="app">
+    <!-- 상단 버튼 -->
     <div class="header-buttons">
       <button id="singing-bowl-mode" class="header-button" title="싱잉볼">🔔</button>
     </div>
 
+    <!-- 타이머 선택 버튼 -->
     <div class="timer-selection">
       <button class="timer-option" data-increment="300">🌱</button>
       <button class="timer-option" data-increment="900">🌳</button>
       <button class="timer-option" data-increment="1800">🌲</button>
     </div>
 
+    <!-- SVG 타이머 -->
     <div id="svg-timer">
       <svg class="progress-ring">
         <circle class="progress-ring__background" r="140" cx="150" cy="150" fill="transparent" stroke="#E6F5E9" stroke-width="10"></circle>
@@ -111,15 +119,16 @@
       <div class="timer-text">00:00</div>
     </div>
 
+    <!-- 푸터 -->
     <footer>
       <p>© 2024 Project FLOW</p>
     </footer>
   </div>
 
+  <!-- 오디오 파일 -->
   <audio id="background-music" loop>
     <source src="./sounds/meditation.mp3" type="audio/mpeg">
   </audio>
-
   <audio id="singing-bowl-sound">
     <source src="./sounds/singing-bowl.mp3" type="audio/mpeg">
   </audio>
@@ -135,19 +144,22 @@
     const timerText = document.querySelector('.timer-text');
     const svgTimer = document.getElementById('svg-timer');
 
+    // 오디오 재생
     function playAudio(audio) {
       audio.currentTime = 0;
       audio.volume = 1;
       audio.play().catch(err => console.warn('오디오 재생 실패:', err));
     }
 
+    // 오디오 초기화
     function resetAudio(audio) {
       audio.pause();
       audio.currentTime = 0;
-      audio.volume = 1;
+      audio.volume = 1; // 볼륨 초기화
     }
 
-    function fadeOutAudio(audio, duration = 5000) {
+    // 오디오 페이드아웃
+    function fadeOutAudio(audio, duration = 10000) {
       if (audio.paused) return;
       const step = audio.volume / (duration / 100);
       const fadeInterval = setInterval(() => {
@@ -160,48 +172,59 @@
       }, 100);
     }
 
+    // 타이머 시작
     function startTimer(duration) {
       if (isRunning) return;
       isRunning = true;
-      let timeLeft = duration;
 
+      let timeLeft = duration;
       progressCircle.style.strokeDasharray = FULL_DASH_ARRAY;
       progressCircle.style.strokeDashoffset = FULL_DASH_ARRAY;
+      timerText.textContent = formatTime(timeLeft);
       svgTimer.style.display = 'block';
       document.querySelector('.timer-selection').style.display = 'none';
 
+      backgroundMusic.loop = true;
       playAudio(backgroundMusic);
 
       intervalId = setInterval(() => {
         if (timeLeft <= 0) {
           clearInterval(intervalId);
-          fadeOutAudio(backgroundMusic, 3000);
+          fadeOutAudio(backgroundMusic, 10000); // 10초 페이드아웃
           playSingingBowl();
           resetTimer();
         } else {
           timeLeft--;
-          const minutes = Math.floor(timeLeft / 60);
-          const seconds = timeLeft % 60;
-          timerText.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+          timerText.textContent = formatTime(timeLeft);
           progressCircle.style.strokeDashoffset = FULL_DASH_ARRAY * (1 - timeLeft / duration);
         }
       }, 1000);
     }
 
+    // 싱잉볼 재생
+    function playSingingBowl() {
+      resetAudio(singingBowlSound);
+      playAudio(singingBowlSound);
+      setTimeout(() => fadeOutAudio(singingBowlSound, 10000), 10000); // 10초 유지 후 10초 페이드아웃
+    }
+
+    // 타이머 초기화
     function resetTimer() {
       isRunning = false;
       clearInterval(intervalId);
       svgTimer.style.display = 'none';
       document.querySelector('.timer-selection').style.display = 'flex';
-      resetAudio(backgroundMusic);
+      progressCircle.style.strokeDashoffset = FULL_DASH_ARRAY;
     }
 
-    function playSingingBowl() {
-      resetAudio(singingBowlSound);
-      playAudio(singingBowlSound);
-      setTimeout(() => fadeOutAudio(singingBowlSound, 3000), 10000);
+    // 시간 포맷
+    function formatTime(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
+      return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
     }
 
+    // 타이머 버튼 이벤트
     document.querySelectorAll('.timer-option').forEach(button => {
       button.addEventListener('click', () => {
         const duration = parseInt(button.dataset.increment, 10);
@@ -209,6 +232,7 @@
       });
     });
 
+    // 싱잉볼 버튼 이벤트
     document.getElementById('singing-bowl-mode').addEventListener('click', playSingingBowl);
   </script>
 </body>
