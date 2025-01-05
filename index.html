@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Project FLOW</title>
   <style>
-    /* 전체 화면 */
+    /* 기본 설정 */
     html, body {
       margin: 0;
       padding: 0;
@@ -116,12 +116,24 @@
 
     /* 반응형 디자인 */
     @media (max-width: 768px) {
+      /* 헤더 버튼 세로 정렬 */
+      .header-buttons {
+        top: auto;
+        right: auto;
+        bottom: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+      }
+
       .header-button {
         width: 60px;
         height: 60px;
         font-size: 1.5rem;
       }
 
+      /* 타이머 버튼 크기 조정 */
       .timer-option {
         width: 100px;
         height: 100px;
@@ -164,7 +176,7 @@
 
     <!-- 푸터 -->
     <footer>
-      <p>© 2025 Project FLOW</p>
+      <p>© 2024 Project FLOW</p>
     </footer>
   </div>
 
