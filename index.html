@@ -12,6 +12,7 @@
       width: 100%;
       height: 100%;
       overflow: hidden; /* 스크롤 제거 */
+      touch-action: manipulation; /* 터치 이벤트 최적화 */
     }
 
     body {
@@ -41,6 +42,13 @@
       justify-content: center;
       color: white;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease;
+      user-select: none;
+    }
+
+    .singing-bowl-button:hover,
+    .singing-bowl-button:active {
+      transform: scale(1.1);
     }
 
     /* 타이머 선택 버튼 */
@@ -67,11 +75,14 @@
       align-items: center;
       cursor: pointer;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      transition: transform 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      user-select: none;
     }
 
-    .timer-option:hover {
+    .timer-option:hover,
+    .timer-option:active {
       transform: scale(1.1);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     }
 
     /* SVG 타이머 */
@@ -84,7 +95,7 @@
     }
 
     .progress-ring {
-      width: 250px; /* 스마트폰에서 크기 축소 */
+      width: 250px; /* 기본 크기 */
       height: 250px;
     }
 
@@ -105,6 +116,7 @@
       font-size: 2rem;
       font-weight: bold;
       color: #2F5D34;
+      user-select: none;
     }
 
     /* 푸터 */
@@ -113,6 +125,8 @@
       bottom: 10px;
       text-align: center;
       width: 100%;
+      font-size: 0.9rem;
+      user-select: none;
     }
 
     /* 반응형 디자인 */
@@ -140,18 +154,47 @@
         font-size: 1.8rem;
       }
     }
+
+    @media (max-width: 480px) {
+      /* 추가 모바일 최적화 */
+      .singing-bowl-button {
+        width: 50px;
+        height: 50px;
+        font-size: 1rem;
+      }
+
+      .timer-option {
+        width: 80px;
+        height: 80px;
+        font-size: 1.2rem;
+        gap: 20px;
+      }
+
+      .progress-ring {
+        width: 150px;
+        height: 150px;
+      }
+
+      .timer-text {
+        font-size: 1.5rem;
+      }
+
+      footer {
+        font-size: 0.8rem;
+      }
+    }
   </style>
 </head>
 <body>
   <div id="app">
     <!-- 싱잉볼 버튼 -->
-    <button id="singing-bowl-mode" class="singing-bowl-button" title="싱잉볼">🔔</button>
+    <button id="singing-bowl-mode" class="singing-bowl-button" title="싱잉볼" aria-label="싱잉볼 모드">🔔</button>
 
     <!-- 타이머 선택 버튼 -->
     <div class="timer-selection">
-      <button class="timer-option" data-increment="300">🌱</button>
-      <button class="timer-option" data-increment="900">🌳</button>
-      <button class="timer-option" data-increment="1800">🌲</button>
+      <button class="timer-option" data-increment="300" aria-label="5분 타이머">🌱</button>
+      <button class="timer-option" data-increment="900" aria-label="15분 타이머">🌳</button>
+      <button class="timer-option" data-increment="1800" aria-label="30분 타이머">🌲</button>
     </div>
 
     <!-- SVG 타이머 -->
@@ -172,44 +215,66 @@
   <!-- 오디오 파일 -->
   <audio id="background-music" loop>
     <source src="./sounds/meditation.mp3" type="audio/mpeg">
+    <!-- 추가적인 소스 포맷을 지원하기 위해 다른 포맷 추가 가능 -->
+    <!-- <source src="./sounds/meditation.ogg" type="audio/ogg"> -->
   </audio>
   <audio id="singing-bowl-sound">
     <source src="./sounds/singing-bowl.mp3" type="audio/mpeg">
+    <!-- <source src="./sounds/singing-bowl.ogg" type="audio/ogg"> -->
   </audio>
 
   <script>
-    const FULL_DASH_ARRAY = 880;
-    let isRunning = false;
-    let intervalId = null;
-
+    // 오디오 요소 가져오기
     const backgroundMusic = document.getElementById('background-music');
     const singingBowlSound = document.getElementById('singing-bowl-sound');
     const progressCircle = document.querySelector('.progress-ring__circle');
     const timerText = document.querySelector('.timer-text');
     const svgTimer = document.getElementById('svg-timer');
 
-    // 오디오 재생
+    let isRunning = false;
+    let intervalId = null;
+
+    // 오디오 재생 함수
     function playAudio(audio) {
       audio.currentTime = 0;
       audio.volume = 1;
       audio.play().catch(err => console.warn('오디오 재생 실패:', err));
     }
 
-    // 오디오 초기화
+    // 오디오 초기화 함수
     function resetAudio(audio) {
       audio.pause();
       audio.currentTime = 0;
-      audio.volume = 1;
+      audio.volume = 1; // 볼륨 초기화
     }
 
-    // 타이머 시작
+    // 오디오 페이드아웃 함수
+    function fadeOutAudio(audio, duration = 10000) {
+      if (audio.paused) return;
+      const fadeInterval = 100; // 밀리초 단위
+      const fadeSteps = duration / fadeInterval;
+      const volumeStep = audio.volume / fadeSteps;
+      let currentStep = 0;
+
+      const fadeTimer = setInterval(() => {
+        if (currentStep < fadeSteps) {
+          audio.volume = Math.max(audio.volume - volumeStep, 0);
+          currentStep++;
+        } else {
+          clearInterval(fadeTimer);
+          resetAudio(audio);
+        }
+      }, fadeInterval);
+    }
+
+    // 타이머 시작 함수
     function startTimer(duration) {
       if (isRunning) return;
       isRunning = true;
 
       let timeLeft = duration;
-      progressCircle.style.strokeDasharray = FULL_DASH_ARRAY;
-      progressCircle.style.strokeDashoffset = FULL_DASH_ARRAY;
+      progressCircle.style.strokeDasharray = 880;
+      progressCircle.style.strokeDashoffset = 880;
       timerText.textContent = formatTime(timeLeft);
       svgTimer.style.display = 'block';
       document.querySelector('.timer-selection').style.display = 'none';
@@ -220,39 +285,58 @@
       intervalId = setInterval(() => {
         if (timeLeft <= 0) {
           clearInterval(intervalId);
-          resetTimer();
-          playSingingBowl();
+
+          // 배경음악 페이드아웃 실행
+          fadeOutAudio(backgroundMusic, 10000);
+
+          // 페이드아웃 종료 후 싱잉볼 재생 및 페이드아웃
+          setTimeout(() => {
+            playSingingBowl();
+            resetTimer();
+          }, 10000);
         } else {
           timeLeft--;
           timerText.textContent = formatTime(timeLeft);
-          progressCircle.style.strokeDashoffset = FULL_DASH_ARRAY * (1 - timeLeft / duration);
+          progressCircle.style.strokeDashoffset = 880 * (1 - timeLeft / duration);
         }
       }, 1000);
     }
 
-    // 싱잉볼 재생
+    // 싱잉볼 재생 함수
     function playSingingBowl() {
       resetAudio(singingBowlSound);
       playAudio(singingBowlSound);
+      fadeOutAudio(singingBowlSound, 10000); // 10초 페이드아웃
     }
 
-    // 타이머 초기화
+    // 타이머 초기화 함수
     function resetTimer() {
       isRunning = false;
       clearInterval(intervalId);
       svgTimer.style.display = 'none';
       document.querySelector('.timer-selection').style.display = 'flex';
-      progressCircle.style.strokeDashoffset = FULL_DASH_ARRAY;
+      progressCircle.style.strokeDashoffset = 880;
     }
 
-    // 시간 포맷
+    // 시간 포맷 함수
     function formatTime(seconds) {
       const minutes = Math.floor(seconds / 60);
       const remainingSeconds = seconds % 60;
       return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
     }
 
-    // 타이머 버튼 이벤트
+    // 오디오 컨텍스트 활성화 (모바일 호환성)
+    function activateAudioContext() {
+      // 일부 모바일 브라우저에서는 오디오 재생 전에 사용자 인터랙션이 필요합니다.
+      // 버튼 클릭 시 오디오를 재생하도록 설정되어 있으므로 별도의 AudioContext는 필요 없습니다.
+      // 이 함수는 향후 확장성을 위해 남겨둡니다.
+    }
+
+    // 버튼 클릭 시 오디오 재생을 보장하기 위해 이벤트 리스너 설정
+    document.getElementById('singing-bowl-mode').addEventListener('click', () => {
+      playSingingBowl();
+    });
+
     document.querySelectorAll('.timer-option').forEach(button => {
       button.addEventListener('click', () => {
         const duration = parseInt(button.dataset.increment, 10);
@@ -260,10 +344,18 @@
       });
     });
 
-    // 싱잉볼 버튼 이벤트
-    document.getElementById('singing-bowl-mode').addEventListener('click', () => {
-      playSingingBowl();
-    });
+    // 페이지 로드 시 오디오 파일 로드 상태 확인 (디버깅 용도)
+    backgroundMusic.addEventListener('canplaythrough', () => {
+      console.log('배경 음악 로드 완료');
+    }, false);
+
+    singingBowlSound.addEventListener('canplaythrough', () => {
+      console.log('싱잉볼 소리 로드 완료');
+    }, false);
+
+    // 사용자 인터랙션을 통해 오디오 재생 보장
+    document.body.addEventListener('touchstart', activateAudioContext, { once: true });
+    document.body.addEventListener('click', activateAudioContext, { once: true });
   </script>
 </body>
 </html>
