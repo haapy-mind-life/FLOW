@@ -5,22 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Project FLOW</title>
   <style>
-    /* 전체 화면 */
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden; /* 스크롤 제거 */
-    }
-
+    /* 기본 스타일 */
     body {
       background: linear-gradient(to bottom, #E6F5E9, #A3D9A5, #6B8E64);
       font-family: 'Poppins', sans-serif;
+      margin: 0;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
+      height: 100vh;
       color: #2F5D34;
     }
 
@@ -30,16 +23,16 @@
       top: 10px;
       right: 10px;
       display: flex;
-      gap: 20px;
+      gap: 10px;
     }
 
     .header-button {
       background: #81C784;
       border: 2px solid #2F5D34;
       border-radius: 50%;
-      width: 80px;
-      height: 80px;
-      font-size: 2rem;
+      width: 50px;
+      height: 50px;
+      font-size: 1.5rem;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -50,41 +43,29 @@
     /* 타이머 버튼 */
     .timer-selection {
       display: flex;
-      gap: 30px;
+      gap: 20px;
       justify-content: center;
       align-items: center;
-      margin-top: 20px;
     }
 
     .timer-option {
       background: linear-gradient(to top, #B6E5AC, #4CAF50);
-      border: 3px solid white;
+      border: 2px solid white;
       border-radius: 50%;
-      width: 150px;
-      height: 150px;
-      font-size: 3rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      width: 100px;
+      height: 100px;
       cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      transition: transform 0.2s ease;
-    }
-
-    .timer-option:hover {
-      transform: scale(1.1);
     }
 
     /* SVG 타이머 */
     #svg-timer {
       display: none;
       position: relative;
-      margin-top: 20px;
     }
 
     .progress-ring {
-      width: 400px;
-      height: 400px;
+      width: 300px;
+      height: 300px;
     }
 
     .progress-ring__circle {
@@ -101,7 +82,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 3rem;
+      font-size: 2.5rem;
       font-weight: bold;
       color: #2F5D34;
     }
@@ -112,30 +93,6 @@
       bottom: 10px;
       text-align: center;
       width: 100%;
-    }
-
-    /* 반응형 디자인 */
-    @media (max-width: 768px) {
-      .header-button {
-        width: 60px;
-        height: 60px;
-        font-size: 1.5rem;
-      }
-
-      .timer-option {
-        width: 100px;
-        height: 100px;
-        font-size: 2rem;
-      }
-
-      .progress-ring {
-        width: 300px;
-        height: 300px;
-      }
-
-      .timer-text {
-        font-size: 2.5rem;
-      }
     }
   </style>
 </head>
@@ -156,15 +113,15 @@
     <!-- SVG 타이머 -->
     <div id="svg-timer">
       <svg class="progress-ring">
-        <circle class="progress-ring__background" r="140" cx="200" cy="200" fill="transparent" stroke="#E6F5E9" stroke-width="10"></circle>
-        <circle class="progress-ring__circle" r="140" cx="200" cy="200" fill="transparent"></circle>
+        <circle class="progress-ring__background" r="140" cx="150" cy="150" fill="transparent" stroke="#E6F5E9" stroke-width="10"></circle>
+        <circle class="progress-ring__circle" r="140" cx="150" cy="150" fill="transparent"></circle>
       </svg>
       <div class="timer-text">00:00</div>
     </div>
 
     <!-- 푸터 -->
     <footer>
-      <p>© 2025 Project FLOW</p>
+      <p>© 2024 Project FLOW</p>
     </footer>
   </div>
 
@@ -198,7 +155,21 @@
     function resetAudio(audio) {
       audio.pause();
       audio.currentTime = 0;
-      audio.volume = 1;
+      audio.volume = 1; // 볼륨 초기화
+    }
+
+    // 오디오 페이드아웃
+    function fadeOutAudio(audio, duration = 10000) {
+      if (audio.paused) return;
+      const step = audio.volume / (duration / 100);
+      const fadeInterval = setInterval(() => {
+        if (audio.volume > 0.01) {
+          audio.volume -= step;
+        } else {
+          clearInterval(fadeInterval);
+          resetAudio(audio);
+        }
+      }, 100);
     }
 
     // 타이머 시작
@@ -219,8 +190,15 @@
       intervalId = setInterval(() => {
         if (timeLeft <= 0) {
           clearInterval(intervalId);
-          resetTimer();
-          playSingingBowl();
+
+          // 명상음악 페이드아웃 실행
+          fadeOutAudio(backgroundMusic, 10000);
+
+          // 페이드아웃 종료 후 싱잉볼 재생
+          setTimeout(() => {
+            playSingingBowl();
+            resetTimer();
+          }, 10000);
         } else {
           timeLeft--;
           timerText.textContent = formatTime(timeLeft);
@@ -233,6 +211,7 @@
     function playSingingBowl() {
       resetAudio(singingBowlSound);
       playAudio(singingBowlSound);
+      setTimeout(() => fadeOutAudio(singingBowlSound, 10000), 10000); // 10초 유지 후 10초 페이드아웃
     }
 
     // 타이머 초기화
@@ -260,9 +239,7 @@
     });
 
     // 싱잉볼 버튼 이벤트
-    document.getElementById('singing-bowl-mode').addEventListener('click', () => {
-      playSingingBowl();
-    });
+    document.getElementById('singing-bowl-mode').addEventListener('click', playSingingBowl);
   </script>
 </body>
 </html>
