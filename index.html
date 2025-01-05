@@ -18,51 +18,50 @@
       background: linear-gradient(to bottom, #E6F5E9, #A3D9A5, #6B8E64);
       font-family: 'Poppins', sans-serif;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
       color: #2F5D34;
+      position: relative;
     }
 
-    /* 헤더 버튼 */
-    .header-buttons {
+    /* 싱잉볼 버튼 */
+    .singing-bowl-button {
       position: absolute;
       top: 10px;
       right: 10px;
-      display: flex;
-      gap: 20px;
-    }
-
-    .header-button {
       background: #81C784;
       border: 2px solid #2F5D34;
       border-radius: 50%;
-      width: 80px;
-      height: 80px;
-      font-size: 2rem;
+      width: 70px;
+      height: 70px;
+      font-size: 1.5rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
-    /* 타이머 버튼 */
+    /* 타이머 선택 버튼 */
     .timer-selection {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       display: flex;
       gap: 30px;
       justify-content: center;
       align-items: center;
-      margin-top: 20px;
     }
 
     .timer-option {
       background: linear-gradient(to top, #B6E5AC, #4CAF50);
       border: 3px solid white;
       border-radius: 50%;
-      width: 150px;
-      height: 150px;
-      font-size: 3rem;
+      width: 120px;
+      height: 120px;
+      font-size: 2rem;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -78,13 +77,15 @@
     /* SVG 타이머 */
     #svg-timer {
       display: none;
-      position: relative;
-      margin-top: 20px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
 
     .progress-ring {
-      width: 400px;
-      height: 400px;
+      width: 250px; /* 스마트폰에서 크기 축소 */
+      height: 250px;
     }
 
     .progress-ring__circle {
@@ -101,7 +102,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 3rem;
+      font-size: 2rem;
       font-weight: bold;
       color: #2F5D34;
     }
@@ -116,47 +117,35 @@
 
     /* 반응형 디자인 */
     @media (max-width: 768px) {
-      /* 헤더 버튼 세로 정렬 */
-      .header-buttons {
-        top: auto;
-        right: auto;
-        bottom: 10px;
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        align-items: center;
-      }
-
-      .header-button {
+      /* 싱잉볼 버튼 크기 조정 */
+      .singing-bowl-button {
         width: 60px;
         height: 60px;
-        font-size: 1.5rem;
+        font-size: 1.2rem;
       }
 
       /* 타이머 버튼 크기 조정 */
       .timer-option {
         width: 100px;
         height: 100px;
-        font-size: 2rem;
+        font-size: 1.5rem;
       }
 
       .progress-ring {
-        width: 300px;
-        height: 300px;
+        width: 200px; /* SVG 타이머 크기 조정 */
+        height: 200px;
       }
 
       .timer-text {
-        font-size: 2.5rem;
+        font-size: 1.8rem;
       }
     }
   </style>
 </head>
 <body>
   <div id="app">
-    <!-- 상단 버튼 -->
-    <div class="header-buttons">
-      <button id="singing-bowl-mode" class="header-button" title="싱잉볼">🔔</button>
-    </div>
+    <!-- 싱잉볼 버튼 -->
+    <button id="singing-bowl-mode" class="singing-bowl-button" title="싱잉볼">🔔</button>
 
     <!-- 타이머 선택 버튼 -->
     <div class="timer-selection">
@@ -168,8 +157,8 @@
     <!-- SVG 타이머 -->
     <div id="svg-timer">
       <svg class="progress-ring">
-        <circle class="progress-ring__background" r="140" cx="200" cy="200" fill="transparent" stroke="#E6F5E9" stroke-width="10"></circle>
-        <circle class="progress-ring__circle" r="140" cx="200" cy="200" fill="transparent"></circle>
+        <circle class="progress-ring__background" r="120" cx="125" cy="125" fill="transparent" stroke="#E6F5E9" stroke-width="10"></circle>
+        <circle class="progress-ring__circle" r="120" cx="125" cy="125" fill="transparent"></circle>
       </svg>
       <div class="timer-text">00:00</div>
     </div>
