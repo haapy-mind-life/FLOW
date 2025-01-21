@@ -11,31 +11,29 @@
       padding: 0;
       width: 100%;
       height: 100%;
-      overflow: hidden; /* 스크롤 제거 */
-      touch-action: manipulation; /* 터치 이벤트 최적화 */
+      overflow: hidden;
+      touch-action: manipulation;
     }
 
     body {
       background: linear-gradient(to bottom, #E6F5E9, #A3D9A5, #6B8E64);
       font-family: 'Poppins', sans-serif;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       color: #2F5D34;
       position: relative;
     }
 
-    /* 싱잉볼 버튼 */
-    .singing-bowl-button {
-      position: absolute;
-      top: 10px;
-      right: 10px;
+    /* 공통 버튼 스타일 */
+    .button {
       background: #81C784;
       border: 2px solid #2F5D34;
       border-radius: 50%;
-      width: 70px;
-      height: 70px;
-      font-size: 1.5rem;
+      width: 80px;
+      height: 80px;
+      font-size: 1.6rem;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -46,57 +44,66 @@
       user-select: none;
     }
 
-    .singing-bowl-button:hover,
-    .singing-bowl-button:active {
+    .button:hover,
+    .button:active {
       transform: scale(1.1);
+    }
+
+    /* 오른쪽 상단 버튼 */
+    #music-mode {
+      position: absolute;
+      top: 10px;
+      right: 120px;
+    }
+
+    #singing-bowl-mode {
+      position: absolute;
+      top: 10px;
+      right: 10px;
     }
 
     /* 타이머 선택 버튼 */
     .timer-selection {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
       display: flex;
-      gap: 30px;
       justify-content: center;
       align-items: center;
+      gap: 40px;
+      margin: 20px 0; /* 푸터와 간격 확보 */
     }
 
     .timer-option {
-      background: linear-gradient(to top, #B6E5AC, #4CAF50);
-      border: 3px solid white;
+      background: #81C784;
+      border: 2px solid #2F5D34;
       border-radius: 50%;
-      width: 120px;
-      height: 120px;
-      font-size: 2rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      width: 100px;
+      height: 100px;
+      font-size: 1.8rem;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s ease;
       user-select: none;
     }
 
     .timer-option:hover,
     .timer-option:active {
       transform: scale(1.1);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     }
 
     /* SVG 타이머 */
     #svg-timer {
       display: none;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      position: relative;
+      width: 280px; /* SVG 크기와 일치 */
+      height: 280px; /* SVG 크기와 일치 */
     }
 
     .progress-ring {
-      width: 250px; /* 기본 크기 */
-      height: 250px;
+      width: 100%;
+      height: 100%;
     }
 
     .progress-ring__circle {
@@ -113,10 +120,11 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 2rem;
+      font-size: 2.2rem;
       font-weight: bold;
       color: #2F5D34;
       user-select: none;
+      pointer-events: none; /* 텍스트 클릭 방지 */
     }
 
     /* 푸터 */
@@ -125,70 +133,67 @@
       bottom: 10px;
       text-align: center;
       width: 100%;
-      font-size: 0.9rem;
-      user-select: none;
+      font-size: 1rem;
+      color: #2F5D34;
     }
 
     /* 반응형 디자인 */
     @media (max-width: 768px) {
-      /* 싱잉볼 버튼 크기 조정 */
-      .singing-bowl-button {
+      .button,
+      .timer-option {
+        width: 70px;
+        height: 70px;
+        font-size: 1.4rem;
+      }
+
+      #music-mode {
+        right: 70px;
+      }
+
+      .progress-ring {
+        width: 240px;
+        height: 240px;
+      }
+
+      .timer-text {
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .button,
+      .timer-option {
         width: 60px;
         height: 60px;
         font-size: 1.2rem;
       }
 
-      /* 타이머 버튼 크기 조정 */
-      .timer-option {
-        width: 100px;
-        height: 100px;
-        font-size: 1.5rem;
+      #music-mode {
+        right: 60px;
       }
 
       .progress-ring {
-        width: 200px; /* SVG 타이머 크기 조정 */
+        width: 200px;
         height: 200px;
       }
 
       .timer-text {
         font-size: 1.8rem;
       }
-    }
-
-    @media (max-width: 480px) {
-      /* 추가 모바일 최적화 */
-      .singing-bowl-button {
-        width: 50px;
-        height: 50px;
-        font-size: 1rem;
-      }
-
-      .timer-option {
-        width: 80px;
-        height: 80px;
-        font-size: 1.2rem;
-        gap: 20px;
-      }
-
-      .progress-ring {
-        width: 150px;
-        height: 150px;
-      }
-
-      .timer-text {
-        font-size: 1.5rem;
-      }
 
       footer {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
       }
     }
   </style>
 </head>
 <body>
   <div id="app">
+    <!-- 명상음악 버튼 -->
+    <button id="music-mode" class="button" title="명상음악 모드" aria-label="명상음악 모드">🎶</button>
+
     <!-- 싱잉볼 버튼 -->
-    <button id="singing-bowl-mode" class="singing-bowl-button" title="싱잉볼" aria-label="싱잉볼 모드">🔔</button>
+    <button id="singing-bowl-mode" class="button" title="싱잉볼" aria-label="싱잉볼 모드">🔔</button>
 
     <!-- 타이머 선택 버튼 -->
     <div class="timer-selection">
@@ -199,9 +204,9 @@
 
     <!-- SVG 타이머 -->
     <div id="svg-timer">
-      <svg class="progress-ring">
-        <circle class="progress-ring__background" r="120" cx="125" cy="125" fill="transparent" stroke="#E6F5E9" stroke-width="10"></circle>
-        <circle class="progress-ring__circle" r="120" cx="125" cy="125" fill="transparent"></circle>
+      <svg class="progress-ring" viewBox="0 0 280 280">
+        <circle class="progress-ring__background" r="120" cx="140" cy="140" fill="transparent" stroke="#E6F5E9" stroke-width="10"></circle>
+        <circle class="progress-ring__circle" r="120" cx="140" cy="140" fill="transparent"></circle>
       </svg>
       <div class="timer-text">00:00</div>
     </div>
@@ -211,6 +216,7 @@
       <p>© 2024 Project FLOW</p>
     </footer>
   </div>
+</body>
 
   <!-- 오디오 파일 -->
   <audio id="background-music" loop>
@@ -230,32 +236,44 @@
     const progressCircle = document.querySelector('.progress-ring__circle');
     const timerText = document.querySelector('.timer-text');
     const svgTimer = document.getElementById('svg-timer');
-
+  
+    // 상태 변수
     let isRunning = false;
     let intervalId = null;
-
-    // 오디오 재생 함수
+    let isMusicPlaying = false; // 명상음악 재생 상태 플래그
+  
+    /**
+     * 오디오 재생 함수
+     * - 주어진 오디오 요소를 처음부터 재생
+     */
     function playAudio(audio) {
       audio.currentTime = 0;
       audio.volume = 1;
       audio.play().catch(err => console.warn('오디오 재생 실패:', err));
     }
-
-    // 오디오 초기화 함수
+  
+    /**
+     * 오디오 초기화 함수
+     * - 오디오를 중지하고 초기 상태로 복구
+     */
     function resetAudio(audio) {
       audio.pause();
       audio.currentTime = 0;
-      audio.volume = 1; // 볼륨 초기화
+      audio.volume = 1;
     }
-
-    // 오디오 페이드아웃 함수
+  
+    /**
+     * 오디오 페이드아웃 함수
+     * - 오디오 볼륨을 점진적으로 줄여 페이드아웃 효과를 적용
+     */
     function fadeOutAudio(audio, duration = 10000) {
       if (audio.paused) return;
+  
       const fadeInterval = 100; // 밀리초 단위
       const fadeSteps = duration / fadeInterval;
       const volumeStep = audio.volume / fadeSteps;
       let currentStep = 0;
-
+  
       const fadeTimer = setInterval(() => {
         if (currentStep < fadeSteps) {
           audio.volume = Math.max(audio.volume - volumeStep, 0);
@@ -266,30 +284,37 @@
         }
       }, fadeInterval);
     }
-
-    // 타이머 시작 함수
+  
+    /**
+     * 타이머 시작 함수
+     * - 주어진 기간 동안 타이머를 실행하며 UI와 오디오를 관리
+     */
     function startTimer(duration) {
       if (isRunning) return;
+  
       isRunning = true;
-
       let timeLeft = duration;
+  
+      // 초기 UI 설정
       progressCircle.style.strokeDasharray = 880;
       progressCircle.style.strokeDashoffset = 880;
       timerText.textContent = formatTime(timeLeft);
       svgTimer.style.display = 'block';
       document.querySelector('.timer-selection').style.display = 'none';
-
+  
+      // 배경음악 재생
       backgroundMusic.loop = true;
       playAudio(backgroundMusic);
-
+  
+      // 타이머 카운트다운
       intervalId = setInterval(() => {
         if (timeLeft <= 0) {
           clearInterval(intervalId);
-
+  
           // 배경음악 페이드아웃 실행
           fadeOutAudio(backgroundMusic, 10000);
-
-          // 페이드아웃 종료 후 싱잉볼 재생 및 페이드아웃
+  
+          // 싱잉볼 재생 후 타이머 초기화
           setTimeout(() => {
             playSingingBowl();
             resetTimer();
@@ -301,61 +326,75 @@
         }
       }, 1000);
     }
-
-    // 싱잉볼 재생 함수
+  
+    /**
+     * 싱잉볼 재생 함수
+     * - 싱잉볼 소리를 재생하며 페이드아웃 효과 적용
+     */
     function playSingingBowl() {
       resetAudio(singingBowlSound);
       playAudio(singingBowlSound);
-      fadeOutAudio(singingBowlSound, 10000); // 10초 페이드아웃
+      fadeOutAudio(singingBowlSound, 17000);
     }
-
-    // 타이머 초기화 함수
+  
+    /**
+     * 타이머 초기화 함수
+     * - 타이머 상태를 초기화하고 UI를 복구
+     */
     function resetTimer() {
       isRunning = false;
       clearInterval(intervalId);
+  
       svgTimer.style.display = 'none';
       document.querySelector('.timer-selection').style.display = 'flex';
       progressCircle.style.strokeDashoffset = 880;
     }
-
-    // 시간 포맷 함수
+  
+    /**
+     * 시간 포맷 함수
+     * - 초 단위 시간을 "분:초" 형식으로 변환
+     */
     function formatTime(seconds) {
       const minutes = Math.floor(seconds / 60);
       const remainingSeconds = seconds % 60;
       return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
     }
-
-    // 오디오 컨텍스트 활성화 (모바일 호환성)
+  
+    /**
+     * 오디오 컨텍스트 활성화 (모바일 호환성)
+     * - 일부 모바일 브라우저에서 오디오 재생 제한을 해결
+     */
     function activateAudioContext() {
-      // 일부 모바일 브라우저에서는 오디오 재생 전에 사용자 인터랙션이 필요합니다.
-      // 버튼 클릭 시 오디오를 재생하도록 설정되어 있으므로 별도의 AudioContext는 필요 없습니다.
-      // 이 함수는 향후 확장성을 위해 남겨둡니다.
+      // 사용자 인터랙션에 따라 오디오 활성화
     }
-
-    // 버튼 클릭 시 오디오 재생을 보장하기 위해 이벤트 리스너 설정
+  
+    // 명상음악 버튼 동작
+    document.getElementById('music-mode').addEventListener('click', () => {
+      if (isMusicPlaying) {
+        backgroundMusic.pause();
+      } else {
+        playAudio(backgroundMusic);
+      }
+      isMusicPlaying = !isMusicPlaying;
+    });
+  
+    // 싱잉볼 버튼 동작
     document.getElementById('singing-bowl-mode').addEventListener('click', () => {
       playSingingBowl();
     });
-
+  
+    // 타이머 버튼 동작
     document.querySelectorAll('.timer-option').forEach(button => {
       button.addEventListener('click', () => {
         const duration = parseInt(button.dataset.increment, 10);
         startTimer(duration);
       });
     });
-
-    // 페이지 로드 시 오디오 파일 로드 상태 확인 (디버깅 용도)
-    backgroundMusic.addEventListener('canplaythrough', () => {
-      console.log('배경 음악 로드 완료');
-    }, false);
-
-    singingBowlSound.addEventListener('canplaythrough', () => {
-      console.log('싱잉볼 소리 로드 완료');
-    }, false);
-
+  
     // 사용자 인터랙션을 통해 오디오 재생 보장
     document.body.addEventListener('touchstart', activateAudioContext, { once: true });
     document.body.addEventListener('click', activateAudioContext, { once: true });
   </script>
+  
 </body>
 </html>
