@@ -16,6 +16,8 @@ let isSingingBowlPlaying = false;
 let intervalId = null;
 let singingBowlTimeouts = [];
 let audioUnlocked = false;
+let ytPlayer = null;
+let ytReady = false;
 
 /* === 기록 & 내보내기 & 훅 (Add-on) === */
 const STORAGE_KEY = 'flow.sessions.v1';
@@ -47,9 +49,14 @@ function parseTags() {
 }
 
 function startFlow(duration, mode = 'focus') {
-  if (isRunning || isSingingBowlPlaying) {
+  if (isRunning) {
     haptic(HAPTIC_SHORT);
     return;
+  }
+  if (isSingingBowlPlaying) {
+    try {
+      stopSingingBowlMode();
+    } catch (e) {}
   }
   currentSession = {
     id: new Date().toISOString(),
@@ -70,6 +77,7 @@ function startFlow(duration, mode = 'focus') {
   haptic(HAPTIC_MEDIUM);
   svgTimer?.classList?.remove('hidden');
   startTimer(duration);
+  startSessionAudio();
 }
 
 function completeFlow(success) {
@@ -95,6 +103,7 @@ function stopFlowManually() {
     intervalId = null;
   }
   completeFlow(false);
+  stopSessionAudio();
   resetTimer();
 }
 
@@ -185,6 +194,73 @@ function haptic(duration = 20) {
   }
 }
 
+function ensureYtPlayer(videoId) {
+  const host = document.getElementById('yt-audio');
+  if (!host) return;
+  if (ytPlayer) {
+    ytPlayer.loadVideoById(videoId);
+    try {
+      ytPlayer.setLoop?.(true);
+    } catch (e) {}
+    return;
+  }
+  ytPlayer = new YT.Player('yt-audio', {
+    height: '0',
+    width: '0',
+    videoId,
+    playerVars: {
+      autoplay: 0,
+      controls: 0,
+      rel: 0,
+      iv_load_policy: 3,
+      modestbranding: 1,
+      playsinline: 1,
+      loop: 1,
+      playlist: videoId,
+    },
+    events: {
+      onReady: () => {
+        ytReady = true;
+        if (isRunning) {
+          startSessionAudio();
+        }
+      },
+      onStateChange: () => {},
+    },
+  });
+}
+
+function isYTReadyToUse() {
+  return !!(ytReady && ytPlayer);
+}
+
+function startSessionAudio() {
+  try {
+    if (isYTReadyToUse()) {
+      ytPlayer.setVolume?.(100);
+      ytPlayer.playVideo?.();
+      if (backgroundMusic) {
+        backgroundMusic.pause();
+        backgroundMusic.currentTime = 0;
+      }
+    } else {
+      backgroundMusic?.play?.();
+    }
+  } catch (e) {}
+}
+
+function stopSessionAudio() {
+  try {
+    ytPlayer?.pauseVideo?.();
+  } catch (e) {}
+  try {
+    if (backgroundMusic) {
+      backgroundMusic.pause();
+      backgroundMusic.currentTime = 0;
+    }
+  } catch (e) {}
+}
+
 function playAudio(audio) {
   if (!audio) return;
   audio.pause();
@@ -254,16 +330,18 @@ function startTimer(duration) {
   timerSelection.classList.add('hidden');
   svgTimer.classList.remove('hidden');
 
-  playAudio(backgroundMusic);
-
   intervalId = setInterval(() => {
     timeLeft -= 1;
     if (timeLeft < 0) {
       clearInterval(intervalId);
       intervalId = null;
       completeFlow(true);
-      fadeOutAudio(backgroundMusic, 4000);
+      stopSessionAudio();
       timeRemaining.textContent = '완료!';
+      try {
+        singingBowlSound.currentTime = 0;
+        singingBowlSound.play();
+      } catch (e) {}
       setTimeout(resetTimer, 4000);
       return;
     }
