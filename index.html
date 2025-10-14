@@ -1,47 +1,207 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8" />
+  <title>FLOW — Simple Timer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-  <meta name="theme-color" content="#6B8E64">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>Project FLOW</title>
-  <link rel="stylesheet" href="src/styles.css">
+  <meta name="theme-color" content="#2F5D34">
+  <style>
+    :root{
+      --flow-bg-start:#E6F5E9;
+      --flow-bg-mid:#A3D9A5;
+      --flow-bg-end:#E6F5E9;
+      --flow-fg:#2F5D34;
+      --flow-accent:#34784A;
+      --flow-ring:#5F8F6A;
+      --tap:56px;
+      --fs-base: clamp(16px, 2.5vw, 18px);
+      --fs-xl: clamp(22px, 4vw, 28px);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      min-height:100dvh; margin:0;
+      background: linear-gradient(180deg, var(--flow-bg-start), var(--flow-bg-mid) 60%, var(--flow-bg-end));
+      color: var(--flow-fg);
+      font: 400 var(--fs-base)/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      -webkit-text-size-adjust:100%;
+      overflow:auto;
+      display:grid;
+      place-items:center;
+      padding: max(env(safe-area-inset-top),12px) 12px max(env(safe-area-inset-bottom),12px);
+    }
+    .card{
+      width:min(480px, 92vw);
+      background: rgba(255,255,255,.6);
+      border-radius: 20px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.12);
+      padding: 16px;
+      text-align:center;
+    }
+    .title{ font-weight:700; margin:4px 0 8px; opacity:.9 }
+    .ring-wrap{ display:grid; place-items:center; margin: 6px 0 10px; }
+    .time{
+      margin-top:8px;
+      font-size: var(--fs-xl);
+      font-weight: 800;
+      letter-spacing: .5px;
+    }
+    .ring{
+      filter: drop-shadow(0 6px 18px rgba(0,0,0,.08));
+    }
+    .ring-bg{ stroke:#ffffff66; stroke-width:10; fill:none }
+    .ring-fg{
+      stroke: var(--flow-ring);
+      stroke-width:10; fill:none;
+      stroke-linecap: round;
+      transform: rotate(-90deg);
+      transform-origin: 60px 60px;
+      stroke-dasharray: 339.292; /* 2πr (r=54) */
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset .2s linear;
+    }
+    .presets{
+      display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:10px;
+    }
+    .preset{
+      display:grid; place-items:center;
+      min-height: var(--tap);
+      border-radius: 14px;
+      background:#fff;
+      box-shadow: 0 6px 16px rgba(0,0,0,.08);
+      cursor:pointer; user-select:none;
+      font-size: 22px;
+    }
+    .preset span{ display:block; line-height:1 }
+    .hint{
+      margin-top:8px; font-size:.9rem; opacity:.8
+    }
+    .stop{
+      margin-top:10px;
+      width:100%; min-height:calc(var(--tap) - 6px);
+      border:0; border-radius:14px;
+      background:#d94a4a; color:#fff;
+      font-weight:700; cursor:pointer;
+      box-shadow:0 10px 20px rgba(217,74,74,.22);
+      display:none;
+    }
+    .stop.show{ display:block; }
+    .brand{ margin-top:8px; opacity:.7; font-size:.85rem }
+  </style>
 </head>
 <body>
-  <div id="app" class="app">
-    <div class="header-buttons">
-      <button id="view-history" class="header-button brown" title="기록 확인" aria-label="기록 확인">📜</button>
-      <button id="copyright-info" class="header-button gray" title="저작권 정보" aria-label="저작권 정보">⚖️</button>
-      <button id="singing-bowl-mode" class="header-button gold" title="싱잉볼 모드" aria-label="싱잉볼 모드">🔔</button>
-    </div>
-    <div class="timer-selection" role="group" aria-label="타이머 선택">
-      <button class="timer-option timer-5min" data-increment="300" aria-label="5분">🌱</button>
-      <button class="timer-option timer-15min" data-increment="900" aria-label="15분">🌳</button>
-      <button class="timer-option timer-30min" data-increment="1800" aria-label="30분">🌲</button>
-    </div>
-    <div class="timer-card">
-      <div id="svg-timer" class="svg-timer hidden" role="timer" aria-live="polite">
-        <svg class="progress-ring" viewBox="0 0 260 260" aria-hidden="true">
-          <circle class="progress-ring__background" stroke="#E6F5E9" stroke-width="10" fill="transparent" r="120" cx="130" cy="130"></circle>
-          <circle class="progress-ring__circle" stroke="#6B8E64" stroke-width="10" fill="transparent" r="120" cx="130" cy="130"></circle>
-        </svg>
-        <div class="timer-text">
-          <p id="time-remaining">00:00</p>
-        </div>
-      </div>
-    </div>
-    <footer class="footer">
-      <p>© 2025 Project Flow. All rights reserved.</p>
-    </footer>
-    <audio id="background-music" preload="auto" loop>
-      <source src="./sounds/meditation.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="singing-bowl-sound" preload="auto">
-      <source src="./sounds/singing-bowl.mp3" type="audio/mpeg">
-    </audio>
-    <div id="yt-audio" aria-hidden="true"></div>
-  </div>
-  <script src="src/script.js"></script>
+  <main class="card" role="main" aria-label="FLOW 단순 타이머">
+    <div class="title">FLOW · 집중/휴식 타이머</div>
+
+    <section class="ring-wrap" aria-live="polite">
+      <svg id="progress-ring" class="ring" width="220" height="220" viewBox="0 0 120 120" role="img" aria-label="남은 시간">
+        <circle class="ring-bg" cx="60" cy="60" r="54"></circle>
+        <circle id="ring-circle" class="ring-fg" cx="60" cy="60" r="54"></circle>
+      </svg>
+      <div id="time-remaining" class="time">00:00</div>
+    </section>
+
+    <section class="presets" aria-label="프리셋">
+      <div class="preset" data-sec="300"  title="5분 시작"><span>🌱</span></div>
+      <div class="preset" data-sec="900"  title="15분 시작"><span>🌳</span></div>
+      <div class="preset" data-sec="1800" title="30분 시작"><span>🌲</span></div>
+    </section>
+
+    <button id="stop-btn" class="stop" aria-pressed="false">정지</button>
+    <div class="hint">이모지를 탭하면 바로 시작 · 진행 중엔 아래 <b>정지</b></div>
+    <div class="brand">© 2024–2025 FLOW</div>
+  </main>
+
+  <script>
+    /* ===== 전역 상태 ===== */
+    let isRunning=false, intervalId=null, total=0, remain=0;
+    const CIRCUM = 2 * Math.PI * 54; // r=54
+
+    const ring = document.getElementById('ring-circle');
+    const timeLabel = document.getElementById('time-remaining');
+    const stopBtn = document.getElementById('stop-btn');
+
+    /* ===== 모바일: 첫 터치 후 오디오 허용 + vh 보정 ===== */
+    let audioUnlocked=false, audioCtx=null;
+    window.addEventListener('pointerdown', ()=>{
+      if(audioUnlocked) return;
+      try{
+        audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+        // 사일런트 노트로 unlock
+        const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+        g.gain.value=0; o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime+0.01);
+        audioUnlocked=true;
+      }catch(e){}
+    }, {once:true});
+
+    function fixVH(){ document.documentElement.style.setProperty('--vh', `${window.innerHeight*0.01}px`); }
+    addEventListener('resize',fixVH); addEventListener('orientationchange',fixVH); fixVH();
+
+    /* ===== 유틸 ===== */
+    function fmt(sec){ const m=Math.floor(sec/60), s=sec%60; return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; }
+    function setProgress(fr){ ring.style.strokeDashoffset = String(CIRCUM * (1 - fr)); }
+    function vib(ms=20){ try{ navigator.vibrate && navigator.vibrate(ms); }catch(e){} }
+
+    // 간단 알람(웹오디오) : 종소리 느낌 2음
+    function chime(){
+      if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+      const now = audioCtx.currentTime;
+      const seq = [
+        { t:0.00, f:880,  d:0.18, v:0.15 },
+        { t:0.22, f:659, d:0.22, v:0.13 }
+      ];
+      seq.forEach(step=>{
+        const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+        o.type='sine'; o.frequency.value=step.f;
+        g.gain.setValueAtTime(0, now+step.t);
+        g.gain.linearRampToValueAtTime(step.v, now+step.t+0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, now+step.t+step.d);
+        o.connect(g); g.connect(audioCtx.destination);
+        o.start(now+step.t); o.stop(now+step.t+step.d+0.02);
+      });
+      vib(30);
+    }
+
+    /* ===== 타이머 ===== */
+    function start(duration){
+      if(isRunning) return;
+      isRunning = true; total = duration; remain = duration;
+      timeLabel.textContent = fmt(remain); setProgress(1);
+      stopBtn.classList.add('show'); stopBtn.setAttribute('aria-pressed','true');
+
+      clearInterval(intervalId);
+      intervalId = setInterval(()=>{
+        remain = Math.max(0, remain - 1);
+        timeLabel.textContent = fmt(remain);
+        setProgress(total ? remain/total : 0);
+        if(remain<=0){
+          clearInterval(intervalId); intervalId=null; isRunning=false;
+          stopBtn.classList.remove('show'); stopBtn.setAttribute('aria-pressed','false');
+          chime(); // 종료 알람
+        }
+      }, 1000);
+    }
+    function stopTimer(){
+      if(!isRunning) return;
+      clearInterval(intervalId); intervalId=null; isRunning=false;
+      stopBtn.classList.remove('show'); stopBtn.setAttribute('aria-pressed','false');
+      vib(15);
+    }
+
+    // 프리셋 이모지 클릭 → 즉시 시작
+    document.querySelectorAll('.preset').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        const sec = parseInt(el.getAttribute('data-sec'), 10) || 300;
+        start(sec);
+      });
+    });
+
+    // 정지 버튼
+    stopBtn.addEventListener('click', stopTimer);
+
+    // 초기 상태
+    timeLabel.textContent = "00:00";
+    setProgress(0);
+  </script>
 </body>
 </html>
