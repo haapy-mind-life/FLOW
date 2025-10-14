@@ -2,13 +2,13 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
-  <title>FLOW — Simple Timer (Sound: Sound/meditation.mp3)</title>
+  <title>FLOW — Simple Timer (fixed: sounds/meditation.mp3)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
   <meta name="theme-color" content="#2F5D34">
   <style>
     :root{
       --flow-bg-start:#E6F5E9; --flow-bg-mid:#A3D9A5; --flow-bg-end:#E6F5E9;
-      --flow-fg:#2F5D34; --flow-accent:#34784A; --flow-ring:#5F8F6A;
+      --flow-fg:#2F5D34; --flow-ring:#5F8F6A;
       --tap:56px; --fs-base: clamp(16px, 2.5vw, 18px); --fs-xl: clamp(22px, 4vw, 28px);
     }
     *{box-sizing:border-box} html,body{height:100%}
@@ -18,8 +18,7 @@
       color: var(--flow-fg);
       font: 400 var(--fs-base)/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       -webkit-text-size-adjust:100%;
-      overflow:auto; display:grid; place-items:center;
-      padding:max(env(safe-area-inset-top),12px) 12px max(env(safe-area-inset-bottom),12px);
+      display:grid; place-items:center; padding:max(env(safe-area-inset-top),12px) 12px max(env(safe-area-inset-bottom),12px);
     }
     .card{ width:min(480px, 92vw); background:rgba(255,255,255,.6); border-radius:20px; box-shadow:0 10px 24px rgba(0,0,0,.12); padding:16px; text-align:center; }
     .title{ font-weight:700; margin:4px 0 8px; opacity:.9 }
@@ -27,8 +26,7 @@
     .time{ margin-top:8px; font-size:var(--fs-xl); font-weight:800; letter-spacing:.5px }
     .ring{ filter:drop-shadow(0 6px 18px rgba(0,0,0,.08)) }
     .ring-bg{ stroke:#ffffff66; stroke-width:10; fill:none }
-    .ring-fg{ stroke: var(--flow-ring); stroke-width:10; fill:none; stroke-linecap:round; transform:rotate(-90deg); transform-origin:60px 60px;
-      stroke-dasharray:339.292; stroke-dashoffset:0; transition:stroke-dashoffset .2s linear; }
+    .ring-fg{ stroke:var(--flow-ring); stroke-width:10; fill:none; stroke-linecap:round; transform:rotate(-90deg); transform-origin:60px 60px; stroke-dasharray:339.292; stroke-dashoffset:0; transition:stroke-dashoffset .2s linear; }
     .presets{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:10px }
     .preset{ display:grid; place-items:center; min-height:var(--tap); border-radius:14px; background:#fff; box-shadow:0 6px 16px rgba(0,0,0,.08); cursor:pointer; user-select:none; font-size:22px }
     .preset span{ display:block; line-height:1 }
@@ -57,96 +55,59 @@
     </section>
 
     <button id="stop-btn" class="stop" aria-pressed="false">정지</button>
-    <div class="hint">이모지를 탭하면 바로 시작 · 진행 중엔 아래 <b>정지</b></div>
+    <div class="hint">이모지를 탭하면 시작 · 진행 중엔 아래 <b>정지</b></div>
     <div class="brand">© 2024–2025 FLOW</div>
   </main>
 
-  <!-- ✅ 우선 시도: Sound/meditation.mp3  → 실패시: sounds/meditation.mp3  → 그마저 실패시: 기본 비프 -->
-  <audio id="alarm-main" preload="auto"></audio>
-  <audio id="alarm-fallback" preload="auto"
+  <!-- 고정 경로 오디오(우선) + 내장 비프(폴백) -->
+  <audio id="alarm-main" preload="auto" src="./sounds/meditation.mp3"></audio>
+  <audio id="alarm-beep" preload="auto"
     src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABYAAAABAAACAAAASAAAAAE/////AAAAAP//AAD///8AAAAAAP///wAAAAAA">
   </audio>
 
   <script>
-    /* ===== 전역 상태 ===== */
+    /* ===== 전역 ===== */
     let isRunning=false, intervalId=null, total=0, remain=0;
     const CIRCUM = 2 * Math.PI * 54;
     const ring = document.getElementById('ring-circle');
     const timeLabel = document.getElementById('time-remaining');
     const stopBtn = document.getElementById('stop-btn');
-
-    /* ===== Sound/meditation.mp3 설정 ===== */
     const alarmMain = document.getElementById('alarm-main');
-    const alarmFallback = document.getElementById('alarm-fallback');
+    const alarmBeep = document.getElementById('alarm-beep');
 
-    // 우선순위 소스 목록(존재하는 것 재생)
-    const alarmSources = [
-      './Sound/meditation.mp3',   // 대문자 S 폴더
-      './sounds/meditation.mp3'   // 소문자 폴더(대체 경로)
-    ];
-
-    // 첫 탭 때 재생 권한(autoplay) 확보
-    let primed = false;
-    async function primeSound() {
-      if (primed) return;
-      try {
-        // src 설정(아직 어떤 경로가 유효한지 모름 → 나중에 load할 때 결정)
-        // 여기서는 fallback으로 언락만 시도
-        alarmFallback.volume = 1.0;
-        await alarmFallback.play();
-        alarmFallback.pause();
-        alarmFallback.currentTime = 0;
+    /* ===== 소리: 최소 수정 ===== */
+    let primed=false;
+    async function primeSound(){
+      if(primed) return;
+      try{
+        // 내장 비프를 아주 짧게 재생→정지해서 자동재생 허용 확보
+        alarmBeep.volume = 1.0;
+        await alarmBeep.play();
+        alarmBeep.pause();
+        alarmBeep.currentTime = 0;
         primed = true;
-      } catch(e) { /* 다음 탭에서 재시도 */ }
+      }catch(e){ /* 다음 탭에서 재시도됨 */ }
     }
-
-    // 유효한 main 소스 선택(첫 재생 직전에 1회)
-    let selectedSrc = null;
-    async function ensureMainSource() {
-      if (selectedSrc) return selectedSrc;
-      for (const src of alarmSources) {
-        try {
-          // 존재 여부를 직접 확인할 수 없으므로, 로드 시도 후 짧게 play → pause 테스트
-          alarmMain.src = src;
-          await alarmMain.load();
-          // 일부 브라우저는 load()가 sync, play로 검증
-          await alarmMain.play();
-          alarmMain.pause();
-          alarmMain.currentTime = 0;
-          selectedSrc = src;
-          break;
-        } catch(e) {
-          // 다음 후보로
-        }
-      }
-      return selectedSrc;
-    }
-
-    async function playAlarm() {
-      // 1) main(mp3) 우선
-      try {
-        await primeSound(); // 혹시 언락 안 됐으면 다시
-        const ok = await ensureMainSource();
-        if (ok) {
-          alarmMain.currentTime = 0;
-          await alarmMain.play();
-          return;
-        }
-      } catch(e) { /* main 실패 → fallback */ }
-
-      // 2) fallback 비프
-      try {
-        alarmFallback.currentTime = 0;
-        await alarmFallback.play();
+    async function playAlarm(){
+      // 1) 고정 경로 mp3 시도
+      try{
+        await primeSound();
+        alarmMain.currentTime = 0;
+        await alarmMain.play();
         return;
-      } catch(e) {}
-
-      // 3) 최후 폴백: TTS
-      try {
+      }catch(e){}
+      // 2) 내장 비프 폴백
+      try{
+        alarmBeep.currentTime = 0;
+        await alarmBeep.play();
+        return;
+      }catch(e){}
+      // 3) 최후 폴백: 한국어 TTS
+      try{
         const msg = new SpeechSynthesisUtterance('타이머가 종료되었습니다.');
         msg.lang = 'ko-KR';
         speechSynthesis.speak(msg);
-      } catch(e) {}
+      }catch(_){}
     }
 
     /* ===== 유틸 ===== */
@@ -156,8 +117,7 @@
     /* ===== 타이머 ===== */
     function start(duration){
       if(isRunning) return;
-      primeSound(); // 사용자 제스처 체인에서 언락 시도
-
+      primeSound(); // 사용자 제스처 체인에서 언락
       isRunning = true; total = duration; remain = duration;
       timeLabel.textContent = fmt(remain); setProgress(1);
       stopBtn.classList.add('show'); stopBtn.setAttribute('aria-pressed','true');
@@ -170,7 +130,7 @@
         if(remain<=0){
           clearInterval(intervalId); intervalId=null; isRunning=false;
           stopBtn.classList.remove('show'); stopBtn.setAttribute('aria-pressed','false');
-          playAlarm();  // 🔔 Sound/meditation.mp3 → 실패 시 fallback
+          playAlarm();
           try{ navigator.vibrate && navigator.vibrate(30); }catch(_){}
         }
       }, 1000);
@@ -182,7 +142,7 @@
       try{ navigator.vibrate && navigator.vibrate(15); }catch(_){}
     }
 
-    // 프리셋 이모지 클릭 → 언락 시도 + 즉시 시작
+    // 이모지 프리셋: 탭 시 즉시 시작
     document.querySelectorAll('.preset').forEach(el=>{
       el.addEventListener('click', ()=>{
         primeSound();
@@ -191,10 +151,9 @@
       }, {passive:true});
     });
 
-    // 정지 버튼
     stopBtn.addEventListener('click', stopTimer);
 
-    // 초기 상태
+    // 초기
     timeLabel.textContent = "00:00";
     setProgress(0);
   </script>
