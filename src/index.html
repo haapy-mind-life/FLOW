@@ -2,38 +2,42 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#6B8E64">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="stylesheet" href="styles.css">
   <title>Project FLOW</title>
 </head>
 <body>
-  <div id="app">
+  <div id="app" class="app">
     <div class="header-buttons">
-      <button id="view-history" class="header-button brown" title="기록 확인">📜</button>
-      <button id="copyright-info" class="header-button gray" title="저작권 정보">⚖️</button>
-      <button id="singing-bowl-mode" class="header-button gold" title="싱잉볼">🔔</button>
+      <button id="view-history" class="header-button brown" title="기록 확인" aria-label="기록 확인">📜</button>
+      <button id="copyright-info" class="header-button gray" title="저작권 정보" aria-label="저작권 정보">⚖️</button>
+      <button id="singing-bowl-mode" class="header-button gold" title="싱잉볼 모드" aria-label="싱잉볼 모드">🔔</button>
     </div>
-    <div class="timer-selection">
-      <button class="timer-option timer-5min" data-increment="300">🌱</button>
-      <button class="timer-option timer-15min" data-increment="900">🌳</button>
-      <button class="timer-option timer-30min" data-increment="1800">🌲</button>
+    <div class="timer-selection" role="group" aria-label="타이머 선택">
+      <button class="timer-option timer-5min" data-increment="300" aria-label="5분">🌱</button>
+      <button class="timer-option timer-15min" data-increment="900" aria-label="15분">🌳</button>
+      <button class="timer-option timer-30min" data-increment="1800" aria-label="30분">🌲</button>
     </div>
-    <div id="svg-timer" class="svg-timer hidden">
-      <svg class="progress-ring" width="300" height="300">
-        <circle class="progress-ring__background" stroke="#E6F5E9" stroke-width="10" fill="transparent" r="140" cx="150" cy="150"></circle>
-        <circle class="progress-ring__circle" stroke="#6B8E64" stroke-width="10" fill="transparent" r="140" cx="150" cy="150"></circle>
-      </svg>
-      <div class="timer-text">
-        <p id="time-remaining">00:00</p>
+    <div class="timer-card">
+      <div id="svg-timer" class="svg-timer hidden" role="timer" aria-live="polite">
+        <svg class="progress-ring" viewBox="0 0 260 260" aria-hidden="true">
+          <circle class="progress-ring__background" stroke="#E6F5E9" stroke-width="10" fill="transparent" r="120" cx="130" cy="130"></circle>
+          <circle class="progress-ring__circle" stroke="#6B8E64" stroke-width="10" fill="transparent" r="120" cx="130" cy="130"></circle>
+        </svg>
+        <div class="timer-text">
+          <p id="time-remaining">00:00</p>
+        </div>
       </div>
     </div>
     <footer class="footer">
       <p>© 2024 Project Flow. All rights reserved.</p>
     </footer>
-    <audio id="background-music" loop>
+    <audio id="background-music" preload="auto" loop>
       <source src="./sounds/meditation.mp3" type="audio/mpeg">
     </audio>
-    <audio id="singing-bowl-sound">
+    <audio id="singing-bowl-sound" preload="auto">
       <source src="./sounds/singing-bowl.mp3" type="audio/mpeg">
     </audio>
   </div>
