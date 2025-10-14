@@ -17,6 +17,145 @@ let intervalId = null;
 let singingBowlTimeouts = [];
 let audioUnlocked = false;
 
+/* === 기록 & 내보내기 & 훅 (Add-on) === */
+const STORAGE_KEY = 'flow.sessions.v1';
+let currentSession = null;
+let startedAt = 0;
+
+function loadAll() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{"sessions":[]}');
+  } catch (e) {
+    return { sessions: [] };
+  }
+}
+
+function pushSession(session) {
+  const all = loadAll();
+  all.sessions.push(session);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+  return all;
+}
+
+function parseTags() {
+  const raw = (document.getElementById('session-tags')?.value || '').trim();
+  if (!raw) return [];
+  return raw
+    .split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+}
+
+function startFlow(duration, mode = 'focus') {
+  if (isRunning || isSingingBowlPlaying) {
+    haptic(HAPTIC_SHORT);
+    return;
+  }
+  currentSession = {
+    id: new Date().toISOString(),
+    mode,
+    presetSec: duration,
+    actualSec: 0,
+    tags: [],
+    note: '',
+    success: false,
+  };
+  startedAt = Date.now();
+
+  const startStopButton = document.getElementById('start-stop-btn');
+  if (startStopButton) {
+    startStopButton.setAttribute('aria-pressed', 'true');
+    startStopButton.textContent = '정지';
+  }
+  haptic(HAPTIC_MEDIUM);
+  svgTimer?.classList?.remove('hidden');
+  startTimer(duration);
+}
+
+function completeFlow(success) {
+  if (!currentSession) return;
+  currentSession.actualSec = Math.round((Date.now() - startedAt) / 1000);
+  currentSession.success = !!success;
+  currentSession.tags = parseTags();
+  currentSession.note = (document.getElementById('session-note')?.value || '').trim();
+  pushSession(currentSession);
+
+  const startStopButton = document.getElementById('start-stop-btn');
+  if (startStopButton) {
+    startStopButton.setAttribute('aria-pressed', 'false');
+    startStopButton.textContent = '시작';
+  }
+  haptic(HAPTIC_SHORT);
+  currentSession = null;
+}
+
+function stopFlowManually() {
+  if (intervalId) {
+    clearInterval(intervalId);
+    intervalId = null;
+  }
+  completeFlow(false);
+  resetTimer();
+}
+
+function successRateToday() {
+  const today = new Date().toISOString().slice(0, 10);
+  const { sessions } = loadAll();
+  const daySessions = sessions.filter((session) => session.id.startsWith(today));
+  if (!daySessions.length) return 0;
+  const completed = daySessions.filter((session) => session.success).length;
+  return completed / daySessions.length;
+}
+
+function exportMarkdownDaily(dateStr = new Date().toISOString().slice(0, 10)) {
+  const { sessions } = loadAll();
+  const daySessions = sessions.filter((session) => session.id.startsWith(dateStr));
+  const totalMinutes = Math.round(
+    daySessions.reduce(
+      (acc, session) => acc + (session.actualSec || session.presetSec || 0),
+      0
+    ) / 60
+  );
+  const success = daySessions.length
+    ? daySessions.filter((session) => session.success).length / daySessions.length
+    : 0;
+  const tags = daySessions.flatMap((session) => session.tags || []);
+  const topTags = [...new Set(tags)].slice(0, 5);
+  const modes = [...new Set(daySessions.map((session) => session.mode))];
+
+  const lines = [
+    `---`,
+    `date: ${dateStr}`,
+    `total_minutes: ${totalMinutes}`,
+    `success_rate: ${success.toFixed(2)}`,
+    `top_tags: ${JSON.stringify(topTags)}`,
+    `modes: ${JSON.stringify(modes)}`,
+    `---`,
+    '',
+    '## Sessions',
+    ...daySessions.map((session) => {
+      const time = session.id.slice(11, 16);
+      const minutes = Math.round(
+        (session.actualSec || session.presetSec || 0) / 60
+      );
+      const status = session.success ? '✅' : '❌';
+      const tagLine = session.tags && session.tags.length ? ` | tags: ${session.tags.join(', ')}` : '';
+      const noteLine = session.note ? ` | "${session.note}"` : '';
+      return `- ${time} | ${session.mode} | ${minutes}m | ${status}${tagLine}${noteLine}`;
+    }),
+    '',
+    '## GPT 요약',
+    '- (여기에 GPT 분석 결과 붙여넣기)',
+    '',
+  ];
+
+  const markdown = lines.join('\n');
+  const anchor = document.createElement('a');
+  anchor.href = URL.createObjectURL(new Blob([markdown], { type: 'text/markdown' }));
+  anchor.download = `${dateStr}.md`;
+  anchor.click();
+}
+
 function unlockAudioOnce() {
   if (audioUnlocked) return;
   const unlock = (audio) => {
@@ -122,6 +261,7 @@ function startTimer(duration) {
     if (timeLeft < 0) {
       clearInterval(intervalId);
       intervalId = null;
+      completeFlow(true);
       fadeOutAudio(backgroundMusic, 4000);
       timeRemaining.textContent = '완료!';
       setTimeout(resetTimer, 4000);
@@ -191,12 +331,34 @@ buttons.forEach((button) => {
       }
       const duration = parseInt(button.getAttribute('data-increment'), 10);
       if (Number.isNaN(duration)) return;
-      haptic(HAPTIC_MEDIUM);
-      startTimer(duration);
+      startFlow(duration, 'focus');
     },
     { passive: true }
   );
 });
+
+const startStopButton = document.getElementById('start-stop-btn');
+if (startStopButton) {
+  startStopButton.addEventListener(
+    'click',
+    () => {
+      const checkedPreset = document.querySelector('input[name="preset"]:checked');
+      const duration = parseInt((checkedPreset?.value || '300'), 10);
+      if (!isRunning) {
+        startFlow(Number.isNaN(duration) ? 300 : duration, 'focus');
+      } else {
+        stopFlowManually();
+      }
+    },
+    { passive: true }
+  );
+}
+
+document.getElementById('export-md-btn')?.addEventListener(
+  'click',
+  () => exportMarkdownDaily(),
+  { passive: true }
+);
 
 singingBowlButton?.addEventListener(
   'click',
