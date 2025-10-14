@@ -2,94 +2,73 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
-  <title>FLOW — Simple Timer</title>
+  <title>FLOW — Simple Timer (Android Fix)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
   <meta name="theme-color" content="#2F5D34">
   <style>
     :root{
-      --flow-bg-start:#E6F5E9;
-      --flow-bg-mid:#A3D9A5;
-      --flow-bg-end:#E6F5E9;
-      --flow-fg:#2F5D34;
-      --flow-accent:#34784A;
-      --flow-ring:#5F8F6A;
-      --tap:56px;
-      --fs-base: clamp(16px, 2.5vw, 18px);
-      --fs-xl: clamp(22px, 4vw, 28px);
+      --flow-bg-start:#E6F5E9; --flow-bg-mid:#A3D9A5; --flow-bg-end:#E6F5E9;
+      --flow-fg:#2F5D34; --flow-accent:#34784A; --flow-ring:#5F8F6A;
+      --tap:56px; --fs-base: clamp(16px, 2.5vw, 18px); --fs-xl: clamp(22px, 4vw, 28px);
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
+    *{box-sizing:border-box} html,body{height:100%}
     body{
       min-height:100dvh; margin:0;
       background: linear-gradient(180deg, var(--flow-bg-start), var(--flow-bg-mid) 60%, var(--flow-bg-end));
       color: var(--flow-fg);
       font: 400 var(--fs-base)/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       -webkit-text-size-adjust:100%;
-      overflow:auto;
-      display:grid;
-      place-items:center;
-      padding: max(env(safe-area-inset-top),12px) 12px max(env(safe-area-inset-bottom),12px);
+      overflow:auto; display:grid; place-items:center;
+      padding:max(env(safe-area-inset-top),12px) 12px max(env(safe-area-inset-bottom),12px);
     }
-    .card{
-      width:min(480px, 92vw);
-      background: rgba(255,255,255,.6);
-      border-radius: 20px;
-      box-shadow: 0 10px 24px rgba(0,0,0,.12);
-      padding: 16px;
-      text-align:center;
-    }
+    .card{ width:min(480px, 92vw); background:rgba(255,255,255,.6); border-radius:20px; box-shadow:0 10px 24px rgba(0,0,0,.12); padding:16px; text-align:center; }
     .title{ font-weight:700; margin:4px 0 8px; opacity:.9 }
-    .ring-wrap{ display:grid; place-items:center; margin: 6px 0 10px; }
-    .time{
-      margin-top:8px;
-      font-size: var(--fs-xl);
-      font-weight: 800;
-      letter-spacing: .5px;
-    }
-    .ring{
-      filter: drop-shadow(0 6px 18px rgba(0,0,0,.08));
-    }
+    .ring-wrap{ display:grid; place-items:center; margin:6px 0 10px }
+    .time{ margin-top:8px; font-size:var(--fs-xl); font-weight:800; letter-spacing:.5px }
+    .ring{ filter:drop-shadow(0 6px 18px rgba(0,0,0,.08)) }
     .ring-bg{ stroke:#ffffff66; stroke-width:10; fill:none }
-    .ring-fg{
-      stroke: var(--flow-ring);
-      stroke-width:10; fill:none;
-      stroke-linecap: round;
-      transform: rotate(-90deg);
-      transform-origin: 60px 60px;
-      stroke-dasharray: 339.292; /* 2πr (r=54) */
-      stroke-dashoffset: 0;
-      transition: stroke-dashoffset .2s linear;
-    }
-    .presets{
-      display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:10px;
-    }
-    .preset{
-      display:grid; place-items:center;
-      min-height: var(--tap);
-      border-radius: 14px;
-      background:#fff;
-      box-shadow: 0 6px 16px rgba(0,0,0,.08);
-      cursor:pointer; user-select:none;
-      font-size: 22px;
-    }
+    .ring-fg{ stroke:var(--flow-ring); stroke-width:10; fill:none; stroke-linecap:round; transform:rotate(-90deg); transform-origin:60px 60px;
+      stroke-dasharray:339.292; stroke-dashoffset:0; transition:stroke-dashoffset .2s linear; }
+    .presets{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:10px }
+    .preset{ display:grid; place-items:center; min-height:var(--tap); border-radius:14px; background:#fff; box-shadow:0 6px 16px rgba(0,0,0,.08); cursor:pointer; user-select:none; font-size:22px }
     .preset span{ display:block; line-height:1 }
-    .hint{
-      margin-top:8px; font-size:.9rem; opacity:.8
-    }
-    .stop{
-      margin-top:10px;
-      width:100%; min-height:calc(var(--tap) - 6px);
-      border:0; border-radius:14px;
-      background:#d94a4a; color:#fff;
-      font-weight:700; cursor:pointer;
-      box-shadow:0 10px 20px rgba(217,74,74,.22);
-      display:none;
-    }
-    .stop.show{ display:block; }
+    .hint{ margin-top:8px; font-size:.9rem; opacity:.8 }
+    .row{ display:flex; align-items:center; justify-content:center; gap:10px; margin-top:8px; }
+    .toggle{ appearance: none; width: 44px; height: 26px; border-radius: 40px; background:#cfd8cf; position:relative; outline:none; cursor:pointer; }
+    .toggle::after{ content:''; position:absolute; top:3px; left:3px; width:20px; height:20px; background:#fff; border-radius:20px; box-shadow:0 1px 3px rgba(0,0,0,.2); transition:.2s; }
+    .toggle:checked{ background:#68b46f; }
+    .toggle:checked::after{ left:21px; }
+
+    .stop{ margin-top:10px; width:100%; min-height:calc(var(--tap) - 6px); border:0; border-radius:14px; background:#d94a4a; color:#fff; font-weight:700; cursor:pointer; box-shadow:0 10px 20px rgba(217,74,74,.22); display:none }
+    .stop.show{ display:block }
     .brand{ margin-top:8px; opacity:.7; font-size:.85rem }
+
+    /* 오디오 언락 오버레이 */
+    .unlock{
+      position:fixed; inset:0; display:grid; place-items:center;
+      background:linear-gradient(180deg, rgba(230,245,233,.95), rgba(163,217,165,.85));
+      z-index:9999;
+    }
+    .unlock .box{
+      width:min(420px, 90vw); background:#fff; border-radius:16px; padding:16px; box-shadow:0 10px 24px rgba(0,0,0,.16); text-align:center;
+    }
+    .unlock .btn{
+      margin-top:10px; width:100%; min-height:var(--tap); border:0; border-radius:14px; background:#34784A; color:#fff; font-weight:800; cursor:pointer;
+      box-shadow:0 10px 20px rgba(52,120,74,.25);
+    }
+    .status{ margin-top:8px; font-size:.9rem; opacity:.8 }
   </style>
 </head>
 <body>
+  <!-- 오디오 언락 오버레이 -->
+  <div id="unlock" class="unlock" role="dialog" aria-modal="true" aria-label="오디오 활성화">
+    <div class="box">
+      <div style="font-weight:800;font-size:1.1rem;">소리 활성화 필요</div>
+      <div class="status">갤럭시 S25+에서 알람을 위해 한 번 눌러주세요.</div>
+      <button id="unlock-btn" class="btn">탭해서 소리 활성화</button>
+    </div>
+  </div>
+
   <main class="card" role="main" aria-label="FLOW 단순 타이머">
     <div class="title">FLOW · 집중/휴식 타이머</div>
 
@@ -107,69 +86,135 @@
       <div class="preset" data-sec="1800" title="30분 시작"><span>🌲</span></div>
     </section>
 
+    <div class="row" title="화면 꺼짐 방지 (선택)">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+        <input id="keep-awake" type="checkbox" class="toggle" />
+        <span>화면꺼짐 방지</span>
+      </label>
+    </div>
+
     <button id="stop-btn" class="stop" aria-pressed="false">정지</button>
-    <div class="hint">이모지를 탭하면 바로 시작 · 진행 중엔 아래 <b>정지</b></div>
+    <div class="hint">이모지를 탭하면 시작 · 진행 중엔 아래 <b>정지</b></div>
     <div class="brand">© 2024–2025 FLOW</div>
   </main>
+
+  <!-- HTMLAudio 백업용 짧은 알람(내장 WAV) -->
+  <audio id="beep" preload="auto"
+    src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABYAAAABAAACAAAASAAAAAE/////AAAAAP//AAD///8AAAAAAP///wAAAAAA">
+  </audio>
 
   <script>
     /* ===== 전역 상태 ===== */
     let isRunning=false, intervalId=null, total=0, remain=0;
-    const CIRCUM = 2 * Math.PI * 54; // r=54
-
+    const CIRCUM = 2 * Math.PI * 54;
     const ring = document.getElementById('ring-circle');
     const timeLabel = document.getElementById('time-remaining');
     const stopBtn = document.getElementById('stop-btn');
 
-    /* ===== 모바일: 첫 터치 후 오디오 허용 + vh 보정 ===== */
-    let audioUnlocked=false, audioCtx=null;
-    window.addEventListener('pointerdown', ()=>{
-      if(audioUnlocked) return;
-      try{
-        audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-        // 사일런트 노트로 unlock
-        const o=audioCtx.createOscillator(), g=audioCtx.createGain();
-        g.gain.value=0; o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime+0.01);
-        audioUnlocked=true;
-      }catch(e){}
-    }, {once:true});
+    /* ===== 오디오 언락(갤럭시 강화) ===== */
+    let audioCtx=null, unlocked=false;
+    const unlockEl = document.getElementById('unlock');
+    const unlockBtn = document.getElementById('unlock-btn');
+    const beepEl = document.getElementById('beep');
 
-    function fixVH(){ document.documentElement.style.setProperty('--vh', `${window.innerHeight*0.01}px`); }
-    addEventListener('resize',fixVH); addEventListener('orientationchange',fixVH); fixVH();
+    async function doUnlock() {
+      try{
+        if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+        await audioCtx.resume?.();
+
+        // 무음 + 가청 테스트음(아주 작게) 재생
+        const now = audioCtx.currentTime;
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.type='sine'; o.frequency.value=880;
+        g.gain.setValueAtTime(0.0001, now);
+        g.gain.exponentialRampToValueAtTime(0.03, now+0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, now+0.08);
+        o.connect(g); g.connect(audioCtx.destination);
+        o.start(now); o.stop(now+0.09);
+
+        // HTMLAudio도 한 번 시도 (백업 경로)
+        try{ await beepEl.play(); beepEl.pause(); beepEl.currentTime=0; }catch(_){}
+
+        unlocked = true;
+        unlockEl.style.display = 'none';
+      }catch(e){
+        document.querySelector('.status').textContent = '활성화를 다시 눌러주세요 (볼륨/무음모드 확인)';
+      }
+    }
+    // 첫 화면에서 명시적으로 탭
+    unlockBtn.addEventListener('click', doUnlock);
+
+    // 추가 보강: 다른 제스처에서도 언락 시도
+    ['touchstart','mousedown','keydown'].forEach(evt=>{
+      window.addEventListener(evt, ()=>{ if(!unlocked) doUnlock(); }, {passive:true});
+    });
+
+    // 백그라운드 복귀 시 재개
+    document.addEventListener('visibilitychange', ()=>{
+      if(document.visibilityState==='visible' && audioCtx){
+        audioCtx.resume?.();
+      }
+    });
+
+    function ensureAudio() {
+      if(!unlocked) return doUnlock();
+      return audioCtx?.resume?.();
+    }
+
+    /* ===== 화면꺼짐 방지(선택) ===== */
+    let wakeLock = null;
+    async function requestWakeLock(){
+      try{ wakeLock = await navigator.wakeLock.request('screen'); }
+      catch(e){ /* 일부 기기/설정에서 미지원 */ }
+    }
+    function releaseWakeLock(){ try{ wakeLock?.release(); wakeLock=null; }catch(e){} }
+    document.getElementById('keep-awake').addEventListener('change', (e)=>{
+      if(e.target.checked) requestWakeLock(); else releaseWakeLock();
+    });
+    // 탭 전환/복귀 시 재요청
+    document.addEventListener('visibilitychange', ()=>{
+      if(document.visibilityState==='visible' && document.getElementById('keep-awake').checked){ requestWakeLock(); }
+    });
 
     /* ===== 유틸 ===== */
     function fmt(sec){ const m=Math.floor(sec/60), s=sec%60; return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; }
     function setProgress(fr){ ring.style.strokeDashoffset = String(CIRCUM * (1 - fr)); }
     function vib(ms=20){ try{ navigator.vibrate && navigator.vibrate(ms); }catch(e){} }
 
-    // 간단 알람(웹오디오) : 종소리 느낌 2음
-    function chime(){
-      if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-      const now = audioCtx.currentTime;
-      const seq = [
-        { t:0.00, f:880,  d:0.18, v:0.15 },
-        { t:0.22, f:659, d:0.22, v:0.13 }
-      ];
-      seq.forEach(step=>{
-        const o=audioCtx.createOscillator(), g=audioCtx.createGain();
-        o.type='sine'; o.frequency.value=step.f;
-        g.gain.setValueAtTime(0, now+step.t);
-        g.gain.linearRampToValueAtTime(step.v, now+step.t+0.02);
-        g.gain.exponentialRampToValueAtTime(0.0001, now+step.t+step.d);
-        o.connect(g); g.connect(audioCtx.destination);
-        o.start(now+step.t); o.stop(now+step.t+step.d+0.02);
-      });
+    // WebAudio 종소리 + HTMLAudio 동시 재생
+    async function chime(){
+      await ensureAudio();
+      try{
+        const now = audioCtx.currentTime;
+        const seq = [
+          { t:0.00, f:880, d:0.18, v:0.18 },
+          { t:0.22, f:659, d:0.22, v:0.16 }
+        ];
+        seq.forEach(step=>{
+          const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+          o.type='sine'; o.frequency.value=step.f;
+          g.gain.setValueAtTime(0, now+step.t);
+          g.gain.linearRampToValueAtTime(step.v, now+step.t+0.02);
+          g.gain.exponentialRampToValueAtTime(0.0001, now+step.t+step.d);
+          o.connect(g); g.connect(audioCtx.destination);
+          o.start(now+step.t); o.stop(now+step.t+step.d+0.03);
+        });
+      }catch(e){}
+      try{ beepEl.currentTime=0; await beepEl.play(); }catch(e){}
       vib(30);
     }
 
     /* ===== 타이머 ===== */
+    let intervalId2=null;
     function start(duration){
       if(isRunning) return;
+      ensureAudio(); // 시작 시 보장
       isRunning = true; total = duration; remain = duration;
       timeLabel.textContent = fmt(remain); setProgress(1);
       stopBtn.classList.add('show'); stopBtn.setAttribute('aria-pressed','true');
 
-      clearInterval(intervalId);
+      clearInterval(intervalId); clearInterval(intervalId2);
       intervalId = setInterval(()=>{
         remain = Math.max(0, remain - 1);
         timeLabel.textContent = fmt(remain);
@@ -180,10 +225,14 @@
           chime(); // 종료 알람
         }
       }, 1000);
+
+      // 보수적: 4초마다 resume 재시도(일부 절전모드 대응)
+      intervalId2 = setInterval(()=>{ if(audioCtx) audioCtx.resume?.(); }, 4000);
     }
     function stopTimer(){
       if(!isRunning) return;
       clearInterval(intervalId); intervalId=null; isRunning=false;
+      clearInterval(intervalId2); intervalId2=null;
       stopBtn.classList.remove('show'); stopBtn.setAttribute('aria-pressed','false');
       vib(15);
     }
@@ -193,7 +242,7 @@
       el.addEventListener('click', ()=>{
         const sec = parseInt(el.getAttribute('data-sec'), 10) || 300;
         start(sec);
-      });
+      }, {passive:true});
     });
 
     // 정지 버튼
