@@ -1,39 +1,105 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8" />
+  <title>FLOW — Mindful Timer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-  <meta name="theme-color" content="#6B8E64">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <link rel="stylesheet" href="styles.css">
-  <title>Project FLOW</title>
+  <meta name="theme-color" content="#2F5D34">
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
   <div id="app" class="app">
-    <div class="header-buttons">
-      <button id="view-history" class="header-button brown" title="기록 확인" aria-label="기록 확인">📜</button>
-      <button id="copyright-info" class="header-button gray" title="저작권 정보" aria-label="저작권 정보">⚖️</button>
-      <button id="export-md-btn" class="header-button gray" title="일일 노트 내보내기" aria-label="일일 노트 내보내기">📝</button>
-      <button id="singing-bowl-mode" class="header-button gold" title="싱잉볼 모드" aria-label="싱잉볼 모드">🔔</button>
+
+    <!-- 헤더: 초록 라인형 아이콘들 -->
+    <div class="header-buttons flow-green">
+      <button id="view-history" class="header-button" title="기록 확인" aria-label="기록 확인">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+          <path d="M7 3h10a2 2 0 0 1 2 2v11l-4 4H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M9 7h8M9 11h8M9 15h5" stroke="currentColor" stroke-width="1.8" fill="none"/>
+        </svg>
+      </button>
+      <button id="export-md-btn" class="header-button" title="일일 노트 내보내기" aria-label="일일 노트 내보내기">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+          <path d="M12 3v12" stroke="currentColor" stroke-width="1.8" fill="none"/>
+          <path d="M8 7l4-4 4 4" stroke="currentColor" stroke-width="1.8" fill="none"/>
+          <path d="M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5" stroke="currentColor" stroke-width="1.8" fill="none"/>
+        </svg>
+      </button>
+      <button id="copyright-info" class="header-button" title="저작권 정보" aria-label="저작권 정보">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" fill="none"/>
+          <path d="M14.5 9.5a4 4 0 1 0 0 5" stroke="currentColor" stroke-width="1.8" fill="none"/>
+        </svg>
+      </button>
+      <button id="singing-bowl-mode" class="header-button" title="싱잉볼" aria-label="싱잉볼">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+          <path d="M8 17h8l1-2v-4a5 5 0 0 0-10 0v4l1 2z" stroke="currentColor" stroke-width="1.8" fill="none"/>
+          <path d="M10 17a2 2 0 0 0 4 0" stroke="currentColor" stroke-width="1.8" fill="none"/>
+        </svg>
+      </button>
     </div>
-    <div class="timer-selection" role="group" aria-label="타이머 선택">
-      <button class="timer-option timer-5min" data-increment="300" aria-label="5분">🌱</button>
-      <button class="timer-option timer-15min" data-increment="900" aria-label="15분">🌳</button>
-      <button class="timer-option timer-30min" data-increment="1800" aria-label="30분">🌲</button>
+
+    <!-- 기록 패널: 오늘 KPI + 리스트 -->
+    <div id="history-panel" class="history-panel" aria-label="오늘 기록">
+      <div class="kpi-row">
+        <div class="kpi">
+          <div class="kpi-label">오늘 총합</div>
+          <div id="kpi-total-min" class="kpi-value">0m</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">성공률</div>
+          <div id="kpi-success-rate" class="kpi-value">0%</div>
+        </div>
+      </div>
+      <strong>오늘 기록</strong>
+      <ul id="history-list" class="history-list"></ul>
     </div>
+
+    <!-- 컨트롤 패널 -->
     <section class="flow-panel" aria-label="FLOW Controls">
       <div class="preset-group" role="radiogroup" aria-label="타이머 프리셋">
-        <label class="preset">
-          <input type="radio" name="preset" value="300" checked>
-          <span>🌱 5분</span>
-        </label>
-        <label class="preset">
-          <input type="radio" name="preset" value="900">
-          <span>🌳 15분</span>
-        </label>
-        <label class="preset">
-          <input type="radio" name="preset" value="1800">
-          <span>🌲 30분</span>
+        <label class="preset"><input type="radio" name="preset" value="300" checked><span>5분</span></label>
+        <label class="preset"><input type="radio" name="preset" value="900"><span>15분</span></label>
+        <label class="preset"><input type="radio" name="preset" value="1800"><span>30분</span></label>
+      </div>
+      <div class="meta-row">
+        <input id="session-note" class="meta-input" placeholder="메모 (선택)" />
+        <input id="session-tags" class="meta-input" placeholder="태그(쉼표구분)" />
+      </div>
+      <button id="start-stop-btn" class="start-btn" aria-pressed="false">시작</button>
+    </section>
+
+    <!-- 원형 타이머 (심플) -->
+    <section class="timer-card">
+      <svg id="progress-ring" width="220" height="220" viewBox="0 0 120 120" aria-label="남은 시간">
+        <circle cx="60" cy="60" r="54" stroke="#ffffff66" stroke-width="10" fill="none"/>
+        <circle id="ring-circle" class="progress-ring__circle" cx="60" cy="60" r="54" stroke-width="10" fill="none"
+                stroke-linecap="round" transform="rotate(-90 60 60)"/>
+      </svg>
+      <div id="time-remaining" class="time-remaining">00:00</div>
+    </section>
+
+    <!-- YouTube 오디오(숨김) + 입력 -->
+    <section class="yt-audio-panel" aria-label="YouTube 오디오">
+      <div class="yt-row">
+        <input id="yt-url" class="meta-input" placeholder="YouTube 링크 (https://www.youtube.com/watch?v=...)" />
+        <button id="yt-apply" class="start-btn" style="min-width:120px;">적용</button>
+      </div>
+      <div id="yt-audio" class="yt-audio-hidden" aria-hidden="true"></div>
+    </section>
+
+    <footer class="footer">
+      <small>© 2024–2025 Project FLOW</small>
+    </footer>
+
+    <!-- 오디오 리소스 -->
+    <audio id="background-music" preload="auto" loop src="./sounds/meditation.mp3"></audio>
+    <audio id="singing-bowl-sound" preload="auto" src="./sounds/singing-bowl.mp3"></audio>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>
         </label>
       </div>
 
