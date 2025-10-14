@@ -13,6 +13,7 @@
     <div class="header-buttons">
       <button id="view-history" class="header-button brown" title="기록 확인" aria-label="기록 확인">📜</button>
       <button id="copyright-info" class="header-button gray" title="저작권 정보" aria-label="저작권 정보">⚖️</button>
+      <button id="export-md-btn" class="header-button gray" title="일일 노트 내보내기" aria-label="일일 노트 내보내기">📝</button>
       <button id="singing-bowl-mode" class="header-button gold" title="싱잉볼 모드" aria-label="싱잉볼 모드">🔔</button>
     </div>
     <div class="timer-selection" role="group" aria-label="타이머 선택">
@@ -20,6 +21,30 @@
       <button class="timer-option timer-15min" data-increment="900" aria-label="15분">🌳</button>
       <button class="timer-option timer-30min" data-increment="1800" aria-label="30분">🌲</button>
     </div>
+    <section class="flow-panel" aria-label="FLOW Controls">
+      <div class="preset-group" role="radiogroup" aria-label="타이머 프리셋">
+        <label class="preset">
+          <input type="radio" name="preset" value="300" checked>
+          <span>🌱 5분</span>
+        </label>
+        <label class="preset">
+          <input type="radio" name="preset" value="900">
+          <span>🌳 15분</span>
+        </label>
+        <label class="preset">
+          <input type="radio" name="preset" value="1800">
+          <span>🌲 30분</span>
+        </label>
+      </div>
+
+      <div class="meta-row">
+        <input id="session-note" class="meta-input" placeholder="메모 (선택)" />
+        <input id="session-tags" class="meta-input" placeholder="태그 쉼표구분 예: 호흡,아침루틴" />
+      </div>
+
+      <button id="start-stop-btn" class="start-btn" aria-pressed="false">시작</button>
+    </section>
+
     <div class="timer-card">
       <div id="svg-timer" class="svg-timer hidden" role="timer" aria-live="polite">
         <svg class="progress-ring" viewBox="0 0 260 260" aria-hidden="true">
